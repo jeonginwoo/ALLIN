@@ -12,7 +12,6 @@
       >
         <v-list dense>
           <v-subheader>MENU</v-subheader>
-
           <v-list-item 
             exact
             v-for="(item, i) in items"
@@ -26,52 +25,6 @@
               <v-list-item-title>{{ item.text }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
-          <!-- <v-list-item router :to="{name: 'dashboard'}" exact>
-            <v-list-item-action>
-              <v-icon>mdi-view-dashboard-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>대시보드</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item router :to="{name: 'project'}" exact>
-            <v-list-item-action>
-              <v-icon>mdi-bulletin-board</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>프로젝트</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          
-          <v-list-item router :to="{name: 'outputStatus'}" exact>
-            <v-list-item-action>
-              <v-icon>mdi-clipboard-search-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>산출물현황</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item router :to="{name: 'useLog'}" exact>
-            <v-list-item-action>
-              <v-icon>mdi-clipboard-text-clock-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>사용로그</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item router :to="{name: 'login'}" exact>
-            <v-list-item-action>
-              <v-icon small>mdi-login</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Login</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item> -->
-
         </v-list>
       </v-card>
     </v-navigation-drawer>
@@ -80,7 +33,7 @@
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
-      <v-app-bar-title>Application</v-app-bar-title>
+      <v-app-bar-title>ALLIN</v-app-bar-title>
     </v-app-bar>
 
     <v-main>
