@@ -2,13 +2,21 @@
   <v-container class="bg-surface-variant">
     <v-row no-gutters>
       <v-col class="ma-2" cols="4">
-        <v-card>
-          <v-autocomplete 
-            class="pa-3"
-            :items="['2020', '2021', '2022', '2023']"
-          ></v-autocomplete>
-          <v-sheet class="pa-2 ma-2">
-            <v-alert
+        <v-card style="height:400px">
+          <v-layout>
+            <v-app-bar
+              flat
+              density="compact"
+            >
+              <v-app-bar-title>
+                <v-autocomplete
+                  label="year"
+                  :items="['2020', '2021', '2022', '2023']"
+                ></v-autocomplete>
+              </v-app-bar-title>
+            </v-app-bar>
+          </v-layout>
+          <v-alert
               title="Alert title"
               type="success"
               text
@@ -28,23 +36,32 @@
               type="error"
               text
             >지연</v-alert>
-          </v-sheet>
         </v-card>
       </v-col>
       <v-col class="ma-2">
-        <v-card class="">
-          <v-sheet class="pa-2 ma-2">
-            차트
-          </v-sheet>
+        <v-card style="height:400px">
+          <v-layout>
+            <v-app-bar
+              flat
+              density="compact"
+            >
+              <v-app-bar-title>전체 프로젝트 현황</v-app-bar-title>
+            </v-app-bar>
+          </v-layout>
         </v-card>
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col class="ma-2">
-        <v-card>
-          <v-sheet class="pa-2 ma-2">
-            프로젝트 리스트
-          </v-sheet>
+        <v-card style="height:400px">
+          <v-layout>
+            <v-app-bar
+              flat
+              density="compact"
+            >
+              <v-app-bar-title>프로젝트 리스트</v-app-bar-title>
+            </v-app-bar>
+          </v-layout>
         </v-card>
       </v-col>
     </v-row>

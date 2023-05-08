@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/setting',
     name: 'setting',
-    component: UseLog
+    component: Setting
   },
   {
     path: '/login',
