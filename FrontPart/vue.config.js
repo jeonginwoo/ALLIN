@@ -14,5 +14,5 @@ module.exports = defineConfig({
       }
     }
   },
-  outputDir: '../backedn/public',
+  outputDir: '../BackPart/public',
 })
