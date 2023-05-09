@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" fixed app>
-      <v-card class="mx-auto" max-width="300" tile>
+      <v-card flat class="mx-auto" max-width="300" tile>
         <v-list dense>
           <!-- 메뉴 바 -->
           <v-subheader>MENU</v-subheader>
-          <v-list-item exact v-for="(item, i) in menuItems" :key="i" router :to="{ name: item.router }">
+          <v-list-item style="border-bottom:solid 0.5px rgba(0,0,0,0.1);" exact v-for="(item, i) in menuItems" :key="i" router :to="{ name: item.router }">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>

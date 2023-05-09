@@ -14,7 +14,9 @@
 
     <!-- 전체 프로젝트 -->
     <v-row no-gutters>
-      <Project />
+      <v-col class="ma-2">
+        <Project />
+      </v-col>
     </v-row>
   </v-container>
 </template>

@@ -7,9 +7,11 @@
         </v-app-bar-title>
       </v-app-bar>
     </v-layout>
-    <v-alert title="Alert title" type="success" text>완료</v-alert>
-    <v-alert title="Alert title" type="info" text>진행</v-alert>
-    <v-alert title="Alert title" type="warning" text>취소</v-alert>
-    <v-alert title="Alert title" type="error" text>지연</v-alert>
+    <div class="pa-2">
+      <v-alert title="Alert title" type="success" text>완료</v-alert>
+      <v-alert title="Alert title" type="info" text>진행</v-alert>
+      <v-alert title="Alert title" type="warning" text>취소</v-alert>
+      <v-alert title="Alert title" type="error" text>지연</v-alert>
+    </div>
   </v-card>
 </template>
