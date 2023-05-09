@@ -1,23 +1,11 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      app
-    >
-      <v-card
-        class="mx-auto"
-        max-width="300"
-        tile
-      >
+    <v-navigation-drawer v-model="drawer" fixed app>
+      <v-card class="mx-auto" max-width="300" tile>
         <v-list dense>
+          <!-- 메뉴 바 -->
           <v-subheader>MENU</v-subheader>
-          <v-list-item 
-            exact
-            v-for="(item, i) in items"
-            :key="i"
-            router :to="{name: item.router}" 
-          >
+          <v-list-item exact v-for="(item, i) in items" :key="i" router :to="{ name: item.router }">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -36,26 +24,18 @@
       <div style="font-size:large">ALLIN</div>
 
       <v-spacer></v-spacer>
-      <v-btn 
-        v-if="isLogin"
-        elevation="0"
-        color="rgba(0,0,0,0)"
-      >Logout<v-icon small>mdi-logout</v-icon></v-btn>
-      <v-btn 
-        v-else
-        elevation="0"
-        color="rgba(0,0,0,0)"
-      ><v-icon small>mdi-login</v-icon>Login
+      <v-btn v-if="isLogin" elevation="0" color="rgba(0,0,0,0)">Logout<v-icon small>mdi-logout</v-icon></v-btn>
+      <v-btn v-else elevation="0" color="rgba(0,0,0,0)"><v-icon small>mdi-login</v-icon>Login
       </v-btn>
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-    
+
     <v-main>
       <router-view></router-view>
     </v-main>
-    
+
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2023</span>
     </v-footer>
@@ -72,7 +52,7 @@ export default {
   computed: {
     ...mapState(["items", "isLogin"])
   },
-  methods:{
+  methods: {
   }
 }
 </script>
