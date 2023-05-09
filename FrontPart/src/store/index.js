@@ -18,6 +18,8 @@ export default new Vuex.Store({
       { text: '사용로그', icon: 'mdi-clipboard-text-clock-outline', router: 'useLog' },
       { text: '환경설정', icon: 'mdi-cog-outline', router: 'setting' },
       { text: '로그인', icon: 'mdi-login', router: 'login' },
+      { text: '로그인2', icon: 'mdi-login', router: 'login' },
+
     ],
     summery: [
       { text: '완료', type: 'success', data: 3 },
