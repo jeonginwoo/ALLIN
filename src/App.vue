@@ -33,9 +33,25 @@
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
-      <v-app-bar-title>ALLIN</v-app-bar-title>
-    </v-app-bar>
+      <div style="font-size:large">ALLIN</div>
 
+      <v-spacer></v-spacer>
+      <v-btn 
+        v-if="isLogin"
+        elevation="0"
+        color="rgba(0,0,0,0)"
+      >Logout<v-icon small>mdi-logout</v-icon></v-btn>
+      <v-btn 
+        v-else
+        elevation="0"
+        color="rgba(0,0,0,0)"
+      ><v-icon small>mdi-login</v-icon>Login
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+    </v-app-bar>
+    
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -47,20 +63,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data: () => ({
     drawer: null,
-    items: [
-      { text: '대시보드', icon: 'mdi-view-dashboard-outline', router: 'dashboard' },
-      { text: '프로젝트', icon: 'mdi-bulletin-board', router: 'project' },
-      { text: '산출물현황', icon: 'mdi-clipboard-search-outline', router: 'outputStatus' },
-      { text: '사용로그', icon: 'mdi-clipboard-text-clock-outline', router: 'useLog' },
-      { text: '환경설정', icon: 'mdi-cog-outline', router: 'setting' },
-      { text: '로그인', icon: 'mdi-login', router: 'login' },
-    ],
   }),
-  props: {
-    source: String
+  computed: {
+    ...mapState(["items", "isLogin"])
   },
   methods:{
   }
