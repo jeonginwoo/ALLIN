@@ -5,7 +5,7 @@
         <v-list dense>
           <!-- 메뉴 바 -->
           <v-subheader>MENU</v-subheader>
-          <v-list-item exact v-for="(item, i) in items" :key="i" router :to="{ name: item.router }">
+          <v-list-item exact v-for="(item, i) in menuItems" :key="i" router :to="{ name: item.router }">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -50,7 +50,7 @@ export default {
     drawer: null,
   }),
   computed: {
-    ...mapState(["items", "isLogin"])
+    ...mapState(["menuItems", "isLogin"])
   },
   methods: {
   }

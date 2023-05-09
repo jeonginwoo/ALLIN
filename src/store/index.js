@@ -11,7 +11,7 @@ export default new Vuex.Store({
       { id: 1, name: 'hoza', email: 'ndsld99@naver.com', password: '1234' },
       { id: 2, name: 'aaza', email: 'ndsld33@naver.com', password: '1234' }
     ],
-    items: [
+    menuItems: [
       { text: '대시보드', icon: 'mdi-view-dashboard-outline', router: 'dashboard' },
       { text: '프로젝트', icon: 'mdi-bulletin-board', router: 'project' },
       { text: '산출물현황', icon: 'mdi-clipboard-search-outline', router: 'outputStatus' },
