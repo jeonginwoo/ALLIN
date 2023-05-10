@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" fixed app>
-      <v-card flat class="mx-auto" max-width="300" tile>
+      <v-card class="mx-auto" max-width="300" tile>
         <v-list dense>
           <!-- 메뉴 바 -->
           <v-subheader>MENU</v-subheader>
-          <v-list-item style="border-bottom:solid 0.5px rgba(0,0,0,0.1);" exact v-for="(item, i) in menuItems" :key="i" router :to="{ name: item.router }">
+          <v-list-item exact v-for="(item, i) in menuItems" :key="i" router :to="{ name: item.router }">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -24,9 +24,9 @@
       <div style="font-size:large">ALLIN</div>
 
       <v-spacer></v-spacer>
-      <v-btn v-if="isLogin" elevation="0" color="rgba(0,0,0,0)">Logout<v-icon small>mdi-logout</v-icon></v-btn>
-      <v-btn v-else elevation="0" color="rgba(0,0,0,0)"><v-icon small>mdi-login</v-icon>Login
-      </v-btn>
+      <div v-if="isLogin">{{ userInfo.name }}</div>
+      <v-btn v-if="isLogin" elevation="0" color="rgba(0,0,0,0)" @click="logout">Logout<v-icon small>mdi-logout</v-icon></v-btn>
+      <v-btn v-else elevation="0" color="rgba(0,0,0,0)" router :to="{name: 'login'}"><v-icon small>mdi-login</v-icon>Login</v-btn>
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
@@ -43,16 +43,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   data: () => ({
     drawer: null,
   }),
   computed: {
-    ...mapState(["menuItems", "isLogin"])
+    ...mapState(["menuItems", "isLogin", "userInfo"])
   },
   methods: {
-  }
+    ...mapActions(['logout'])
+  },
 }
 </script>

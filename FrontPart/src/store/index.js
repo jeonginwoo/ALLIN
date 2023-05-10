@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from "../router/index"
 
 Vue.use(Vuex)
 
@@ -7,6 +8,7 @@ export default new Vuex.Store({
   state: {
     isLogin: false,
     isLoginError: false,
+    userInfo: null,
     allUsers: [  // Data Base
       { id: 1, name: 'hoza', email: 'ndsld99@naver.com', password: '1234' },
       { id: 2, name: 'aaza', email: 'ndsld33@naver.com', password: '1234' }
@@ -17,9 +19,6 @@ export default new Vuex.Store({
       { text: '산출물현황', icon: 'mdi-clipboard-search-outline', router: 'outputStatus' },
       { text: '사용로그', icon: 'mdi-clipboard-text-clock-outline', router: 'useLog' },
       { text: '환경설정', icon: 'mdi-cog-outline', router: 'setting' },
-      { text: '로그인', icon: 'mdi-login', router: 'login' },
-      { text: '로그인2', icon: 'mdi-login', router: 'login' },
-
     ],
     summery: [
       { text: '완료', type: 'success', data: 3 },
@@ -52,14 +51,20 @@ export default new Vuex.Store({
   },
   mutations: {  // 상태값 변화
     // 로그인이 성공했을 때
-    loginSuccess(state) {
+    loginSuccess(state, payload) {
       state.isLogin = true
       state.isLoginError = false
+      state.userInfo = payload
     },
     // 로그인이 실패했을 때
     loginError(state) {
       state.isLogin = false
       state.isLoginError = true
+    },
+    logout(state){
+      state.isLogin = false
+      state.isLoginError = false
+      state.userInfo = null
     },
   },
   actions: {
@@ -69,13 +74,16 @@ export default new Vuex.Store({
       state.allUsers.forEach(user => {
         if (user.email === loginObj.email) selectedUser = user
       })
-      if (selectedUser === null) commit('loginError')
+      if(selectedUser === null || selectedUser.password !== loginObj.password) commit('loginError')
       else {
-        selectedUser.password !== loginObj.password
-          ? commit('loginError')
-          : commit('loginSuccess')
+        commit('loginSuccess', selectedUser)
+        router.push({name:"dashboard"})
       }
     },
+    logout({commit}){
+      commit("logout")
+      router.push({name: "login"})
+    }
   },
   modules: {
   }

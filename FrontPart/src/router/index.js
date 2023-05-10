@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 
 import Dashboard from '../views/Dashboard.vue'
 import Project from '../views/Project.vue'
@@ -10,31 +11,46 @@ import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
+const onlyAuthUser = (to, from, next) => {
+  if(store.state.isLogin === false){
+    // 이미 로그인 안 된 유저. 막아야 함
+    alert('로그인이 필요한 기능입니다')
+    next("/login")
+  } else {
+    next()
+  }
+}
+
 const routes = [
   {
     path: '/',
     name: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: onlyAuthUser,
   },
   {
     path: '/project',
     name: 'project',
-    component: Project
+    component: Project,
+    beforeEnter: onlyAuthUser,
   },
   {
     path: '/outputStatus',
     name: 'outputStatus',
-    component: OutputStatus
+    component: OutputStatus,
+    beforeEnter: onlyAuthUser,
   },
   {
     path: '/useLog',
     name: 'useLog',
-    component: UseLog
+    component: UseLog,
+    beforeEnter: onlyAuthUser,
   },
   {
     path: '/setting',
     name: 'setting',
-    component: Setting
+    component: Setting,
+    beforeEnter: onlyAuthUser,
   },
   {
     path: '/login',
