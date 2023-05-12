@@ -13,9 +13,9 @@ Vue.use(VueRouter)
 
 const onlyAuthUser = (to, from, next) => {
   if(store.state.isLogin === false){
-    // 이미 로그인 안 된 유저. 막아야 함
-    alert('로그인이 필요한 기능입니다')
-    next("/login")
+    // alert('로그인이 필요한 기능입니다')
+    // next("/login")
+    next()
   } else {
     next()
   }
