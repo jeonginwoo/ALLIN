@@ -42,7 +42,7 @@
         <v-text-field label="프로젝트명" required></v-text-field>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col class="mt-5" align-self="right">
+      <v-col class="mt-5">
         <v-btn icon>
           <v-icon color="blue darken-1">
             mdi-shape-rectangle-plus
