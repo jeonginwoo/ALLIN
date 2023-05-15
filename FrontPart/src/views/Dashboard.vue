@@ -3,7 +3,7 @@
     <v-row no-gutters>
       <!-- 전체 내용 요약 부분 -->
       <v-col class="ma-2" cols="4">
-        <Summery />
+        <Summary />
       </v-col>
 
       <!-- 프로젝트 현황 -->
@@ -23,7 +23,7 @@
 
 <script>
 import ProjectStatus from '../components/ProjectStatus.vue'
-import Summery from '../components/Summery.vue'
+import Summary from '../components/Summary.vue'
 import Project from './Project.vue'
 
 export default {
@@ -34,7 +34,7 @@ export default {
   },
   components: {
     ProjectStatus,
-    Summery,
+    Summary,
     Project
   }
 }

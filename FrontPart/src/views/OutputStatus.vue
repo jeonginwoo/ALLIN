@@ -8,19 +8,27 @@
     </v-layout>
  <v-row no-gutters>
       <v-col class="ma-2">
-        <v-card style="height:600px">
+        <v-card style="height:700px">
           <v-card-title>
             프로젝트
           </v-card-title>
-    <v-data-table :headers="headers2" :items="projects2" hide-default-footer class="elevation-0" fixed height></v-data-table>
+    <v-data-table :headers="headers2" :items="projects2" :footer-props="{
+                        'items-per-page-text': '페이지 당',
+                        'items-per-page-options':[ 5,10,15,20],
+                        'show-current-page': true,
+                    }" class="elevation-0" fixed height></v-data-table>
         </v-card>
       </v-col>
       <v-col class="ma-2">
-        <v-card style="height:600px">
+        <v-card style="height:700px">
           <v-card-title>
             산출물 목록
           </v-card-title>
-    <v-data-table :headers="headers3" :items="projects3" hide-default-footer class="elevation-0"></v-data-table>
+    <v-data-table :headers="headers3" :items="projects3" :footer-props="{
+                        'items-per-page-text': '페이지 당',
+                        'items-per-page-options':[ 5,10,15,20],
+                        'show-current-page': true,
+                    }" class="elevation-0"></v-data-table>
         </v-card>
       </v-col>
     </v-row>

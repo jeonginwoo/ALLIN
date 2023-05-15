@@ -41,8 +41,7 @@
       <v-col>
         <v-text-field label="프로젝트명" required></v-text-field>
       </v-col>
-      <v-col :cols="!$vuetify.breakpoint.mobile?'md-2':12" 
-      align="right">
+      <v-col :cols="!$vuetify.breakpoint.mobile?'md-2':12" align="left" style="margin-top: 0.5cm;">
         <v-dialog
         v-model="isAddProject"
         width="600"
@@ -71,7 +70,11 @@
           </v-btn>
         </v-col>
     </v-row>
-    <v-data-table :headers="headers1" :items="projects1" hide-default-footer class="elevation-0"></v-data-table>
+    <v-data-table :headers="headers1" :items="projects1" :footer-props="{
+                        'items-per-page-text': '페이지 당',
+                        'items-per-page-options':[ 5,10,15,20],
+                        'show-current-page': true,
+                    }" class="elevation-0"></v-data-table>
   </v-card>
 </template>
 
