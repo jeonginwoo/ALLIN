@@ -26,7 +26,7 @@ export default new Vuex.Store({
       { text: '취소', type: 'warning', data: 1 },
       { text: '지연', type: 'error', data: 1 },
     ],
-    headers: [
+    headers1: [
       { text: '프로젝트명', value: 'name', align: 'start', sortable: false },
       { text: '담당자', value: 'person' },
       { text: '상태', value: 'state' },
@@ -34,7 +34,7 @@ export default new Vuex.Store({
       { text: '시작일', value: 'start' },
       { text: '완료예정일', value: 'end' },
     ],
-    projects: [ // Data Base
+    projects1: [ // Data Base
       { name: 'Frozen Yogurt', person: 159, state: 6.0, progress: 24, start: 4.0, end: 1, },
       { name: 'Ice cream sandwich', person: 237, state: 9.0, progress: 37, start: 4.3, end: 1, },
       { name: 'Eclair', person: 262, state: 16.0, progress: 23, start: 6.0, end: 7, },
@@ -45,6 +45,45 @@ export default new Vuex.Store({
       { name: 'Honeycomb', person: 408, state: 3.2, progress: 87, start: 6.5, end: 45, },
       { name: 'Donut', person: 452, state: 25.0, progress: 51, start: 4.9, end: 22, },
       { name: 'KitKat', person: 518, state: 26.0, progress: 65, start: 7, end: 6, },
+    ],
+    headers2: [
+      { text: '프로젝트명', value: 'name', align: 'start', sortable: false },
+      { text: '상태', value: 'state' },
+      { text: '진행률', value: 'progress' },
+      { text: '완료예정일', value: 'end' },
+    ],
+    projects2: [ // Data Base
+      { name: 'Frozen Yogurt', state: 6.0, progress: 24, end: 1, },
+      { name: 'Ice cream sandwich', state: 9.0, progress: 37, end: 1, },
+      { name: 'Eclair', state: 16.0, progress: 23, end: 7, },
+      { name: 'Cupcake', state: 3.7, progress: 67, end: 8, },
+      { name: 'Gingerbread', state: 16.0, progress: 49, end: 16, },
+      { name: 'Jelly bean', state: 0.0, progress: 94, end: 0, },
+      { name: 'Lollipop', state: 0.2, progress: 98, end: 2, },
+      { name: 'Honeycomb', state: 3.2, progress: 87, end: 45, },
+      { name: 'Donut', state: 25.0, progress: 51, end: 22, },
+      { name: 'KitKat', state: 26.0, progress: 65, end: 6, },
+    ],
+    headers3: [
+      { text: '파일명', value: 'file', align: 'start', sortable: false },
+      { text: '크기', value: 'size' },
+      { text: '문서명', value: 'name' },
+      { text: '문서분류', value: 'sort' },
+      { text: '업로드일자', value: 'date' },
+      { text: '최근 업데이트', value: 'update' },
+      { text: '비고', value: 'note' },
+    ],
+    projects3: [ // Data Base
+      { file: 'Frozen Yogurt', size: 6.0, name: 24, sort: 1, date: 1, update: 2, note: 3 },
+      { file: 'Ice cream sandwich', size: 9.0, name: 37, sort: 1, date: 1, update: 2, note: 3 },
+      { file: 'Eclair', size: 16.0, name: 23, sort: 7, date: 1, update: 2, note: 3},
+      { file: 'Cupcake', size: 3.7, name: 67, sort: 8, date: 1, update: 2, note: 3},
+      { file: 'Gingerbread', size: 16.0, name: 49, sort: 16, date: 1, update: 2, note: 3},
+      { file: 'Jelly bean', size: 0.0, name: 94, sort: 0, date: 1, update: 2, note: 3},
+      { file: 'Lollipop', size: 0.2, name: 98, sort: 2, date: 1, update: 2, note: 3},
+      { file: 'Honeycomb', size: 3.2, name: 87, sort: 45, date: 1, update: 2, note: 3},
+      { file: 'Donut', size: 25.0, name: 51, sort: 22, date: 1, update: 2, note: 3},
+      { file: 'KitKat', size: 26.0, name: 65, sort: 6, date: 1, update: 2, note: 3},
     ],
   },
   getters: {

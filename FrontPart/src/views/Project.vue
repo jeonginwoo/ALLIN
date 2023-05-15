@@ -55,7 +55,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-data-table :headers="headers" :items="projects" hide-default-footer class="elevation-0"></v-data-table>
+    <v-data-table :headers="headers1" :items="projects1" hide-default-footer class="elevation-0"></v-data-table>
   </v-card>
 </template>
 
@@ -86,7 +86,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["headers", "projects"])
+    ...mapState(["headers1", "projects1"])
   }
 }
 </script>
