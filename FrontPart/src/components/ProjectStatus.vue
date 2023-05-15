@@ -6,3 +6,6 @@
     </v-layout>
   </v-card>
 </template>
+
+<script>
+</script>

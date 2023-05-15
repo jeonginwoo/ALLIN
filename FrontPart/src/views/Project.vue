@@ -41,19 +41,35 @@
       <v-col>
         <v-text-field label="프로젝트명" required></v-text-field>
       </v-col>
-      <v-spacer></v-spacer>
-      <v-col class="mt-5">
-        <v-btn icon>
-          <v-icon color="blue darken-1">
-            mdi-shape-rectangle-plus
-          </v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon color="blue darken-1">
-            mdi-refresh
-          </v-icon>
-        </v-btn>
-      </v-col>
+      <v-col :cols="!$vuetify.breakpoint.mobile?'md-2':12" 
+      align="right">
+        <v-dialog
+        v-model="isAddProject"
+        width="600"
+        scrollable
+        :fullscreen="$vuetify.breakpoint.mobile">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              icon
+              outlined
+              small
+              class="mr-3"
+              color="primary"           
+              v-bind="attrs"
+              v-on="on"><v-icon>mdi-shape-rectangle-plus</v-icon>
+            </v-btn>
+          </template>
+          <AddProject @cancel="isAddProject=false" @create="createProject"/>
+          </v-dialog>
+          <v-btn 
+            icon
+            outlined
+            small
+            color="success"
+            @click="refresh()"
+            ><v-icon>mdi-refresh</v-icon>
+          </v-btn>
+        </v-col>
     </v-row>
     <v-data-table :headers="headers1" :items="projects1" hide-default-footer class="elevation-0"></v-data-table>
   </v-card>
@@ -62,8 +78,38 @@
 
 <script>
 import { mapState } from 'vuex'
+import AddProject from '../components/AddProject.vue';
 
 export default {
+
+components: {
+      AddProject,
+    },
+  data1() {
+        return{
+          loading: false,
+          modal1: false,
+          modal2: false,
+          error: '',
+          dataCollection: null,
+          files:null,
+          isAddProject: false,
+          editingProject: {},
+          filter: {
+            projectStart: [null],
+            projectDue: [null],
+            state: '',
+            name: ''
+          },
+          stateList: ['미착수', '진행중', '완료', '지연', '취소'],
+          
+          snackbar: false,
+          message: '',
+          state: '',
+          response:''
+        }
+    },
+
   data() {
     return {
       date: new Date().toISOString().substr(0, 10),
