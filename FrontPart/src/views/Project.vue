@@ -41,74 +41,55 @@
       <v-col>
         <v-text-field label="프로젝트명" required></v-text-field>
       </v-col>
-      <v-col :cols="!$vuetify.breakpoint.mobile ? 'md-2' : 12" align="left" style="margin-top: 0.5cm;">
-        <v-dialog v-model="isAddProject" width="600" scrollable :fullscreen="$vuetify.breakpoint.mobile">
+
+      <v-col class="mt-5">
+        <v-dialog
+          scrollable
+          width="600px"
+        >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon outlined small class="mr-3" color="primary" v-bind="attrs"
+            <v-btn class="mr-2" icon outlined small color="primary" v-bind="attrs"
               v-on="on"><v-icon>mdi-shape-rectangle-plus</v-icon>
             </v-btn>
           </template>
-          <AddProject @cancel="isAddProject = false" @create="createProject" />
+          <AddProject />
         </v-dialog>
-        <v-btn icon outlined small color="success" @click="refresh()"><v-icon>mdi-refresh</v-icon>
+        <v-btn icon outlined small color="success"><v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-col>
     </v-row>
-
-    <!-- :items="getProject.projects" 데이터베이스에서 가져온 값 쓰려면 -->
-    <v-data-table :headers="headers1" :items="projects1" :footer-props="{
+    <v-data-table 
+    :headers="headers" 
+    :items="getData.projects"  
+    :footer-props="{
       'items-per-page-text': '페이지 당',
       'items-per-page-options': [5, 10, 15, 20],
       'show-current-page': true,
-    }" class="elevation-0"></v-data-table>
+    }" 
+    class="elevation-0"
+    ></v-data-table>
   </v-card>
 </template>
 
 
 <script>
+import AddProject from '../components/AddProject.vue'
 import { mapState } from 'vuex'
-import AddProject from '../components/AddProject.vue';
 import axios from "axios";
 import { reactive } from "vue";
 
 export default {
-
-  components: {
-    AddProject,
-  },
-  data1() {
-    return {
-      loading: false,
-      modal1: false,
-      modal2: false,
-      error: '',
-      dataCollection: null,
-      files: null,
-      isAddProject: false,
-      editingProject: {},
-      filter: {
-        projectStart: [null],
-        projectDue: [null],
-        state: '',
-        name: ''
-      },
-      stateList: ['미착수', '진행중', '완료', '지연', '취소'],
-
-      snackbar: false,
-      message: '',
-      state: '',
-      response: ''
-    }
-  },
-
   data() {
     return {
       date: new Date().toISOString().substr(0, 10),
       s_date: new Date().toISOString().substr(0, 10),
       e_date: new Date().toISOString().substr(0, 10),
       menu1: false,
-      menu2: false
+      menu2: false,
     }
+  },
+  components:{
+    AddProject
   },
   methods: {
     s_date_search(v) {
@@ -120,22 +101,27 @@ export default {
       this.e_date = v;
       this.menu2 = false;
       this.$refs.menu2.save(v);
-    }
+    },
+    refresh(){
+      console.log(this.getProjectList())
+    },
   },
   computed: {
-    ...mapState(["headers1", "projects1"])
+    ...mapState(["headers"])
   },
-
-  // 데이터베이스 데이터 가져오기
   setup(){
-    const getProject = reactive({
+    const getData = reactive({
       projects: [],
+      users: [],
     });
-    axios.get("/api/projects").then((res) => {
-      getProject.projects = res.data.projects;
+    axios.get("/api/project").then((res) => {
+      getData.projects = res.data.projects;
     });
+    axios.get("/api/user").then((res) => {
+      getData.users = res.data.users;
+    })
     return {
-      getProject,
+      getData,
     }
   },
 }
