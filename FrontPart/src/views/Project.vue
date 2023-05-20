@@ -6,43 +6,52 @@
       </v-app-bar>
     </v-layout>
     <v-row class="ml-2">
+
+      <!-- 시작일 검색 부분 -->
       <v-col>
-        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :return-value.sync="s_date"
+        <v-menu ref="start_date_menu" v-model="start_date_menu" :close-on-content-click="false" :return-value.sync="start_date"
           transition="scale-transition" offset-y min-width="290px">
           <template v-slot:activator="{ on, attrs }">
-            <v-text-field v-model="s_date" label="시작일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+            <v-text-field v-model="start_date" label="시작일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
               v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="s_date" no-title scrollable :max="e_date">
+          <v-date-picker v-model="start_date" no-title scrollable :max="end_date">
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="menu1 = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="s_date_search(s_date)">OK</v-btn>
+            <v-btn text color="primary" @click="start_date_menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="start_date_search(start_date)">OK</v-btn>
           </v-date-picker>
         </v-menu>
       </v-col>
 
+      <!-- 완료예정일 검색 부분 -->
       <v-col>
-        <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :return-value.sync="e_date"
+        <v-menu ref="end_date_menu" v-model="end_date_menu" :close-on-content-click="false" :return-value.sync="end_date"
           transition="scale-transition" offset-y min-width="290px">
           <template v-slot:activator="{ on, attrs }">
-            <v-text-field v-model="e_date" label="완료예정일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+            <v-text-field v-model="end_date" label="완료예정일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
               v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="e_date" no-title scrollable :min="s_date">
+          <v-date-picker v-model="end_date" no-title scrollable :min="start_date">
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="menu2 = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="e_date_search(e_date)">OK</v-btn>
+            <v-btn text color="primary" @click="end_date_menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="end_date_search(end_date)">OK</v-btn>
           </v-date-picker>
         </v-menu>
       </v-col>
+
+      <!-- 상태 검색 부분 -->
       <v-col>
         <v-autocomplete label="상태" :items="['완료', '진행중', '미착수', '지연', '취소']"></v-autocomplete>
       </v-col>
+
+      <!-- 프로젝트명 검색 부분 -->
       <v-col>
         <v-text-field label="프로젝트명" required></v-text-field>
       </v-col>
 
+      <!-- 프로젝트 추가, 새로고침 버튼 부분 -->
       <v-col class="mt-5">
+        <!-- 프로젝트 추가 버튼 -->
         <v-dialog
           scrollable
           width="600px"
@@ -54,10 +63,15 @@
           </template>
           <AddProject />
         </v-dialog>
+
+        <!-- 새로고침 버튼 -->
         <v-btn icon outlined small color="success"><v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-col>
+
     </v-row>
+
+    <!-- 프로젝트 목록 부분 -->
     <v-data-table 
     :headers="headers" 
     :items="getData.projects"  
@@ -81,26 +95,25 @@ import { reactive } from "vue";
 export default {
   data() {
     return {
-      date: new Date().toISOString().substr(0, 10),
-      s_date: new Date().toISOString().substr(0, 10),
-      e_date: new Date().toISOString().substr(0, 10),
-      menu1: false,
-      menu2: false,
+      start_date: new Date().toISOString().substr(0, 10),
+      end_date: new Date().toISOString().substr(0, 10),
+      start_date_menu: false,
+      end_date_menu: false,
     }
   },
   components:{
     AddProject
   },
   methods: {
-    s_date_search(v) {
-      this.s_date = v;
-      this.menu1 = false;
-      this.$refs.menu1.save(v);
+    start_date_search(v) {
+      this.start_date = v;
+      this.start_date_menu = false;
+      this.$refs.start_date_menu.save(v);
     },
-    e_date_search(v) {
-      this.e_date = v;
-      this.menu2 = false;
-      this.$refs.menu2.save(v);
+    end_date_search(v) {
+      this.end_date = v;
+      this.end_date_menu = false;
+      this.$refs.end_date_menu.save(v);
     },
     refresh(){
       console.log(this.getProjectList())

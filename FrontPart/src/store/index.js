@@ -14,20 +14,20 @@ export default new Vuex.Store({
       { userNo: 2, name: 'BBB', email: 'bbb@naver.com', password: '1234' },
       { userNo: 3, name: 'CCC', email: 'ccc@naver.com', password: '1234' },
     ],
-    menuItems: [
+    menuItems: [  // 최상단의 메뉴 아이템
       { text: '대시보드', icon: 'mdi-view-dashboard-outline', router: 'dashboard' },
       { text: '프로젝트', icon: 'mdi-bulletin-board', router: 'project' },
       { text: '산출물현황', icon: 'mdi-clipboard-search-outline', router: 'outputStatus' },
       { text: '사용로그', icon: 'mdi-clipboard-text-clock-outline', router: 'useLog' },
       { text: '환경설정', icon: 'mdi-cog-outline', router: 'setting' },
     ],
-    summary: [
+    summary: [  // Summary.vue에서 사용
       { text: '완료', type: 'success', data: 3 },
       { text: '진행', type: 'info', data: 3 },
       { text: '취소', type: 'warning', data: 1 },
       { text: '지연', type: 'error', data: 1 },
     ],
-    headers: [
+    headers: [  // Project 출력 부분 헤더
       { text: '프로젝트명', value: 'Pname', align: 'start', sortable: false },
       { text: '프로젝트 번호', value: 'Pno' },
       { text: '담당자', value: 'user_name' },
