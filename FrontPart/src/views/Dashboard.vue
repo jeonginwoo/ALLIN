@@ -33,8 +33,8 @@ export default {
     }
   },
   components: {
-    ProjectStatus,
     Summary,
+    ProjectStatus,
     Project
   }
 }

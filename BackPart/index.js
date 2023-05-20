@@ -25,12 +25,38 @@ app.get("/api/project", (req, res) => {
   })
 });
 
-app.post("/api/test", (req, res) => {
+app.post("/api/project_create", (req, res) => {
   const data = req.body
   database.query(`INSERT INTO project (Pname, mgr, state, progress, start_date, deadline, end_date) VALUES(?, ?, ?, ?, ?, ?, ?);`, [data.Pname, data.mgr, data.state, data.progress, data.start_date, data.deadline, data.end_date], (err, res) =>{
     if(err)
       console.log(err)
   })
+});
+
+app.post("/api/project_update", (req, res) => {
+  const data = req.body
+  console.log(data)
+
+  // database.query(``, [], (err, res) =>{
+  //   if(err){
+  //     console.log(err)
+  //   } else {
+  //     console.log(res)
+  //   }
+  // })
+});
+
+app.post("/api/project_delete", (req, res) => {
+  const data = req.body
+  console.log(data)
+
+  // database.query(``, [], (err, res) =>{
+  //   if(err){
+  //     console.log(err)
+  //   } else {
+  //     console.log(res)
+  //   }
+  // })
 });
 
 app.listen(port, () => {

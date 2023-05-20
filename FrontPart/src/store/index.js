@@ -36,6 +36,7 @@ export default new Vuex.Store({
       { text: '시작일', value: 'start_date' },
       { text: '완료예정일', value: 'deadline' },
       { text: '종료일', value: 'end_date' },
+      { text: 'Actions', value: 'actions' },
     ],
   },
   getters: {

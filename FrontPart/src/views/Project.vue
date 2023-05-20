@@ -61,7 +61,7 @@
               v-on="on"><v-icon>mdi-shape-rectangle-plus</v-icon>
             </v-btn>
           </template>
-          <AddProject />
+          <CreateProject />
         </v-dialog>
 
         <!-- 새로고침 버튼 -->
@@ -72,7 +72,7 @@
     </v-row>
 
     <!-- 프로젝트 목록 부분 -->
-    <v-data-table 
+    <!-- <v-data-table 
     :headers="headers" 
     :items="getData.projects"  
     :footer-props="{
@@ -81,13 +81,42 @@
       'show-current-page': true,
     }" 
     class="elevation-0"
-    ></v-data-table>
+    ></v-data-table> -->
+    <v-data-table 
+      :headers="headers" 
+      :items="getData.projects">
+      <template v-slot:item.actions="{ item }">
+
+        <!-- 프로젝트 수정 버튼 -->
+        <v-dialog scrollable width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon small v-bind="attrs" v-on="on">
+              <v-icon small>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
+          <UpdateProject />
+        </v-dialog>
+
+        <!-- 프로젝트 삭제 버튼 -->
+        <v-dialog scrollable width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon small v-bind="attrs" v-on="on">
+              <v-icon small>mdi-delete</v-icon>
+            </v-btn>
+          </template>
+          <DeleteProject />
+        </v-dialog>
+        
+      </template>
+    </v-data-table>
   </v-card>
 </template>
 
 
 <script>
-import AddProject from '../components/AddProject.vue'
+import CreateProject from '../components/CreateProject.vue'
+import UpdateProject from '../components/UpdateProject.vue'
+import DeleteProject from '../components/DeleteProject.vue'
 import { mapState } from 'vuex'
 import axios from "axios";
 import { reactive } from "vue";
@@ -102,7 +131,9 @@ export default {
     }
   },
   components:{
-    AddProject
+    CreateProject,
+    UpdateProject,
+    DeleteProject
   },
   methods: {
     start_date_search(v) {
