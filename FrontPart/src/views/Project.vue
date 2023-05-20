@@ -85,6 +85,17 @@
     <v-data-table 
       :headers="headers" 
       :items="getData.projects">
+
+<!-- 상태 색깔 -->
+    <template v-slot:item.state="{ item }">
+      <v-chip
+        :color="getColor(item.state)"
+        dark
+      >
+        {{ item.state }}
+      </v-chip>
+    </template>
+
       <template v-slot:item.actions="{ item }">
 
         <!-- 프로젝트 수정 버튼 -->
@@ -149,6 +160,13 @@ export default {
     refresh(){
       console.log(this.getProjectList())
     },
+    getColor (state) {
+        if (state == '완료') return 'green'
+        else if (state == '진행중') return 'blue'
+        else if (state == '취소') return 'yellow'
+        else if (state == '지연') return 'red'
+        else return 'grey'
+      },
   },
   computed: {
     ...mapState(["headers"])

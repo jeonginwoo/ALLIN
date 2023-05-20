@@ -38,6 +38,13 @@ export default new Vuex.Store({
       { text: '종료일', value: 'end_date' },
       { text: 'Actions', value: 'actions' },
     ],
+    mypage_headers: [  // Mypage 출력 부분 헤더
+    { text: '프로젝트명', value: 'Pname', align: 'start', sortable: false },
+    { text: '프로젝트 번호', value: 'Pno' },
+    { text: '상태', value: 'state' },
+    { text: '진행률', value: 'progress' },
+    { text: 'D-day', value: 'd_day' },
+  ],
   },
   getters: {
   },
