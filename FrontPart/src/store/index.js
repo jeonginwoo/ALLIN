@@ -9,6 +9,11 @@ export default new Vuex.Store({
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    allUsers: [  // Data Base
+      { userNo: 1, name: 'AAA', email: 'aaa@naver.com', password: '1234' },
+      { userNo: 2, name: 'BBB', email: 'bbb@naver.com', password: '1234' },
+      { userNo: 3, name: 'CCC', email: 'ccc@naver.com', password: '1234' },
+    ],
     menuItems: [
       { text: '대시보드', icon: 'mdi-view-dashboard-outline', router: 'dashboard' },
       { text: '프로젝트', icon: 'mdi-bulletin-board', router: 'project' },
