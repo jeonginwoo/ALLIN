@@ -2,13 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
 
-import Dashboard from '../views/Dashboard.vue'
-import Project from '../views/Project.vue'
-import OutputStatus from '../views/OutputStatus.vue'
-import UseLog from '../views/UseLog.vue'
-import Setting from '../views/Setting.vue'
-import Login from '../views/Login.vue'
-
 Vue.use(VueRouter)
 
 const onlyAuthUser = (to, from, next) => {
@@ -25,38 +18,43 @@ const routes = [
   {
     path: '/',
     name: 'dashboard',
-    component: Dashboard,
+    component: ()=>import('@/views/Dashboard.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/project',
     name: 'project',
-    component: Project,
+    component: ()=>import('@/views/Project.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/outputStatus',
     name: 'outputStatus',
-    component: OutputStatus,
+    component: ()=>import('@/views/OutputStatus.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/useLog',
     name: 'useLog',
-    component: UseLog,
+    component: ()=>import('@/views/UseLog.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/setting',
     name: 'setting',
-    component: Setting,
+    component: ()=>import('@/views/Setting.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/login',
     name: 'login',
-    component: Login
-  }
+    component: ()=>import('@/views/Login.vue')
+  },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: ()=>import('@/views/MyPage.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -25,11 +25,34 @@
 
       <v-spacer></v-spacer>
       <div v-if="isLogin">{{ userInfo.name }}</div>
-      <v-btn v-if="isLogin" elevation="0" color="rgba(0,0,0,0)" @click="logout">Logout<v-icon small>mdi-logout</v-icon></v-btn>
       <v-btn v-else elevation="0" color="rgba(0,0,0,0)" router :to="{name: 'login'}"><v-icon small>mdi-login</v-icon>Login</v-btn>
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      
+      <v-menu v-if="isLogin" dense offset-y>
+        <template v-slot:activator="{ attrs, on }">
+          <v-btn class="ma-3" icon small v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item exact router :to="{ name: 'mypage' }">
+            <v-list-item-action>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>마이페이지</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item exact @click="logout">
+            <v-list-item-action>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>로그아웃</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      
     </v-app-bar>
 
     <v-main>
