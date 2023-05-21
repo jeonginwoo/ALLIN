@@ -41,26 +41,40 @@
       <v-col>
         <v-text-field label="프로젝트명" required></v-text-field>
       </v-col>
-      <v-col :cols="!$vuetify.breakpoint.mobile ? 'md-2' : 12" align="left" style="margin-top: 0.5cm;">
-        <v-dialog v-model="isAddProject" width="600" scrollable :fullscreen="$vuetify.breakpoint.mobile">
+      <v-col :cols="!$vuetify.breakpoint.mobile?'md-2':12" align="left" style="margin-top: 0.5cm;">
+        <v-dialog
+        v-model="isAddProject"
+        width="600"
+        scrollable
+        :fullscreen="$vuetify.breakpoint.mobile">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon outlined small class="mr-3" color="primary" v-bind="attrs"
+            <v-btn 
+              icon
+              outlined
+              small
+              class="mr-3"
+              color="primary"           
+              v-bind="attrs"
               v-on="on"><v-icon>mdi-shape-rectangle-plus</v-icon>
             </v-btn>
           </template>
-          <AddProject @cancel="isAddProject = false" @create="createProject" />
-        </v-dialog>
-        <v-btn icon outlined small color="success" @click="refresh()"><v-icon>mdi-refresh</v-icon>
-        </v-btn>
-      </v-col>
+          <AddProject @cancel="isAddProject=false" @create="createProject"/>
+          </v-dialog>
+          <v-btn 
+            icon
+            outlined
+            small
+            color="success"
+            @click="refresh()"
+            ><v-icon>mdi-refresh</v-icon>
+          </v-btn>
+        </v-col>
     </v-row>
-
-    <!-- :items="getProject.projects" 데이터베이스에서 가져온 값 쓰려면 -->
     <v-data-table :headers="headers1" :items="projects1" :footer-props="{
-      'items-per-page-text': '페이지 당',
-      'items-per-page-options': [5, 10, 15, 20],
-      'show-current-page': true,
-    }" class="elevation-0"></v-data-table>
+                        'items-per-page-text': '페이지 당',
+                        'items-per-page-options':[ 5,10,15,20],
+                        'show-current-page': true,
+                    }" class="elevation-0"></v-data-table>
   </v-card>
 </template>
 
@@ -68,38 +82,36 @@
 <script>
 import { mapState } from 'vuex'
 import AddProject from '../components/AddProject.vue';
-import axios from "axios";
-import { reactive } from "vue";
 
 export default {
 
-  components: {
-    AddProject,
-  },
+components: {
+      AddProject,
+    },
   data1() {
-    return {
-      loading: false,
-      modal1: false,
-      modal2: false,
-      error: '',
-      dataCollection: null,
-      files: null,
-      isAddProject: false,
-      editingProject: {},
-      filter: {
-        projectStart: [null],
-        projectDue: [null],
-        state: '',
-        name: ''
-      },
-      stateList: ['미착수', '진행중', '완료', '지연', '취소'],
-
-      snackbar: false,
-      message: '',
-      state: '',
-      response: ''
-    }
-  },
+        return{
+          loading: false,
+          modal1: false,
+          modal2: false,
+          error: '',
+          dataCollection: null,
+          files:null,
+          isAddProject: false,
+          editingProject: {},
+          filter: {
+            projectStart: [null],
+            projectDue: [null],
+            state: '',
+            name: ''
+          },
+          stateList: ['미착수', '진행중', '완료', '지연', '취소'],
+          
+          snackbar: false,
+          message: '',
+          state: '',
+          response:''
+        }
+    },
 
   data() {
     return {
@@ -124,19 +136,6 @@ export default {
   },
   computed: {
     ...mapState(["headers1", "projects1"])
-  },
-
-  // 데이터베이스 데이터 가져오기
-  setup(){
-    const getProject = reactive({
-      projects: [],
-    });
-    axios.get("/api/projects").then((res) => {
-      getProject.projects = res.data.projects;
-    });
-    return {
-      getProject,
-    }
-  },
+  }
 }
 </script>
