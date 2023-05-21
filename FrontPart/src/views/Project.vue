@@ -57,28 +57,15 @@
 
             <v-col>
               <!-- 프로젝트 추가 버튼 -->
-              <v-dialog v-model="dialogCreate" scrollable width="600px">
-                <CreateProject @create="createData" @cancel="dialogCreate = false" />
-              </v-dialog>
               <v-btn class="mr-2" icon outlined small color="primary" @click="dialogCreate = true">
                 <v-icon>mdi-shape-rectangle-plus</v-icon>
               </v-btn>
-
               <!-- 새로고침 버튼 -->
               <v-btn icon outlined small color="success">
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
             </v-col>
           </v-row>
-
-          <!-- 다이어로그 창 -->
-          <v-dialog v-model="dialogUpdate" max-width="500px">
-            <UpdateProject @update="updateData" @cancel="dialogUpdate = false" />
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <DeleteProject @delete="deleteData" @cancel="dialogDelete = false" />
-          </v-dialog>
-
         </v-toolbar>
       </template>
 
@@ -99,6 +86,17 @@
         </v-chip>
       </template>
     </v-data-table>
+
+    <!-- 다이어로그 창 -->
+    <v-dialog v-model="dialogCreate" scrollable width="600px">
+      <CreateProject @create="createData" @cancel="dialogCreate = false" />
+    </v-dialog>
+    <v-dialog v-model="dialogUpdate" max-width="500px">
+      <UpdateProject @update="updateData" @cancel="dialogUpdate = false" />
+    </v-dialog>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <DeleteProject @delete="deleteData" @cancel="dialogDelete = false" />
+    </v-dialog>
   </v-card>
 </template>
 
