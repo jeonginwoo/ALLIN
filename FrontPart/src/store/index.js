@@ -26,15 +26,9 @@ export default new Vuex.Store({
       { text: '취소', type: 'warning', data: 1 },
       { text: '지연', type: 'error', data: 1 },
     ],
-<<<<<<< Updated upstream
     headers1: [
       { text: '프로젝트명', value: 'Pname', align: 'start', sortable: false },
       { text: '프로젝트 번호', value: 'Pno' },
-=======
-    headers: [  // Project 출력 부분 헤더
-      { text: '프로젝트 번호', value: 'Pno', align: 'start' },
-      { text: '프로젝트명', value: 'Pname' },
->>>>>>> Stashed changes
       { text: '담당자', value: 'user_name' },
       { text: '상태', value: 'state' },
       { text: '진행률', value: 'progress' },
@@ -42,7 +36,6 @@ export default new Vuex.Store({
       { text: '완료예정일', value: 'deadline' },
       { text: '종료일', value: 'end_date' },
     ],
-<<<<<<< Updated upstream
     // headers1: [
     //   { text: '프로젝트명', value: 'name', align: 'start', sortable: false },
     //   { text: '담당자', value: 'person' },
@@ -109,14 +102,6 @@ export default new Vuex.Store({
       { file: 'Honeycomb', size: 3.2, name: 87, sort: 45, date: 1, update: 2, note: 3},
       { file: 'Donut', size: 25.0, name: 51, sort: 22, date: 1, update: 2, note: 3},
       { file: 'KitKat', size: 26.0, name: 65, sort: 6, date: 1, update: 2, note: 3},
-=======
-    mypage_headers: [  // Mypage 출력 부분 헤더
-      { text: '프로젝트명', value: 'Pname', align: 'start', sortable: false },
-      { text: '프로젝트 번호', value: 'Pno' },
-      { text: '상태', value: 'state' },
-      { text: '진행률', value: 'progress' },
-      { text: 'D-day', value: 'd_day' },
->>>>>>> Stashed changes
     ],
   },
   getters: {
