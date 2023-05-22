@@ -7,57 +7,85 @@ app.use(express.json());
 
 app.get("/api/user", (req, res) => {
   database.query("SELECT * FROM user", (err, users) => {
-    if(err)
+    if (err)
       console.log(err);
-    else{
+    else {
       res.send({ users });
     }
   })
 });
 
+// 전체 프로젝트 리스트 반환
 app.get("/api/project", (req, res) => {
-  database.query("SELECT Pno, Pname, user_name, state, progress, DATE_FORMAT(start_date,'%Y.%m.%d')as start_date, DATE_FORMAT(deadline,'%Y.%m.%d')as deadline, DATE_FORMAT(end_date,'%Y.%m.%d')as end_date FROM project LEFT JOIN user ON project.mgr = user.user_no ", (err, projects) => {
-    if(err)
+  database.query("SELECT Pno, Pname, user_name, case when(deadline-date(now()) < 0) then '지연' when (progress = 0) then '미착수' when (progress between 1 and 6) then '진행중' when (progress = 7) then '완료' end as state, progress, DATE_FORMAT(start_date,'%Y.%m.%d')as start_date, DATE_FORMAT(deadline,'%Y.%m.%d')as deadline, DATE_FORMAT(end_date,'%Y.%m.%d')as end_date FROM project LEFT JOIN user ON project.mgr = user.user_no ", (err, projects) => {
+    if (err)
       console.log(err);
-    else{
+    else {
       res.send({ projects });
     }
   })
 });
 
+// 신규 프로젝트 생성
 app.post("/api/project_create", (req, res) => {
   const data = req.body
-  database.query(`INSERT INTO project (Pname, mgr, state, progress, start_date, deadline, end_date) VALUES(?, ?, ?, ?, ?, ?, ?);`, [data.Pname, data.mgr, data.state, data.progress, data.start_date, data.deadline, data.end_date], (err, res) =>{
-    if(err){
+  database.query(`INSERT INTO project (Pname, mgr, progress, start_date, deadline, end_date) VALUES(?, ?, ?, ?, ?, null);`, [data.Pname, data.mgr, data.progress, data.start_date, data.deadline], (err, res) => {
+    if (err) {
       console.log(err)
     } else {
-      console.log(res)
+      database.query('SELECT Pno from project where Pname = ? and mgr = ?', [data.Pname, data.mgr], (err, res) => {
+        if (err) {
+          console.log(err)
+        } else {
+          database.query('INSERT INTO works_on (user_no, pno) values (?, ?)', [data.mgr, res[0].Pno], (err, res) => {
+            if (err) {
+              console.log(err)
+            }
+          })
+        }
+      })
     }
   })
 });
 
+// 프로젝트 정보 갱신 + 진행 단계 갱신을 여기서?
 app.post("/api/project_update", (req, res) => {
   const data = req.body
-  console.log('-----------');
-  console.log(data)
-  console.log('-----------');
-  database.query(`UPDATE project SET Pname=?, mgr=?, state=?, progress=?, start_date=?, deadline=? WHERE Pno=?`, [data.Pname, data.mgr, data.state, data.progress, data.start_date, data.deadline, data.Pno], (err, res) =>{
-    if(err){
+  database.query('SELECT mgr from project where Pno = ?', [data.Pno], (err, res) => {
+    if (!err) {
+      database.query('UPDATE works_on SET user_no = ? where user_no = ? and pno = ?', [data.mgr, res[0].mgr, data.Pno], (err, res) => {
+        if (err) console.log(err)
+      })
+    } else console.log(err)
+  })
+  database.query(`UPDATE project SET Pname=?, mgr=?, progress=?, start_date=?, deadline=? WHERE Pno=?`, [data.Pname, data.mgr, data.progress, data.start_date, data.deadline, data.Pno], (err, res) => {
+    if (err) {
       console.log(err)
-    } else {
-      console.log(res)
     }
   })
 });
 
+// 프로젝트 삭제
 app.post("/api/project_delete", (req, res) => {
   const data = req.body
   console.log(data)
-  database.query(`DELETE FROM project WHERE Pno=?`, [data.Pno], (err, res) =>{
-    if(err){
+  database.query(`DELETE FROM project WHERE Pno=?`, [data.Pno], (err, res) => {
+    if (err) {
       console.log(err)
     } else {
       console.log(res)
+    }
+  })
+});
+
+// 이용자 참여 프로젝트 리스트 반환 ++ 현재 로그인중인 user_no를 front에서 보내줘야함!!!
+app.post("/api/my_project", (req, res) => {
+  const data = req.body
+  database.query("SELECT Pno, Pname, case when(deadline-date(now()) < 0) then '지연' when (progress = 0) then '미착수' when (progress between 1 and 6) then '진행중' when (progress = 7) then '완료' end as state, progress, DATE_FORMAT(start_date,'%Y.%m.%d')as start_date, DATE_FORMAT(deadline,'%Y.%m.%d')as deadline, DATE_FORMAT(end_date,'%Y.%m.%d')as end_date FROM works_on, project LEFT JOIN user ON project.mgr = user.user_no where works_on.user_no = ?", [data.user_no], (err, projects) => {
+    if (err)
+      console.log(err);
+    else {
+      res.send({ projects });
     }
   })
 });

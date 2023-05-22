@@ -32,7 +32,7 @@ export default new Vuex.Store({
       { text: '프로젝트 번호', value: 'Pno', align: 'start' },
       { text: '담당자', value: 'user_name' },
       { text: '상태', value: 'state' },
-      { text: '진행률', value: 'progress' },
+      // { text: '진행률', value: 'progress' },
       { text: '시작일', value: 'start_date' },
       { text: '완료예정일', value: 'deadline' },
       { text: '종료일', value: 'end_date' },
@@ -60,7 +60,7 @@ export default new Vuex.Store({
       state.isLogin = false
       state.isLoginError = true
     },
-    logout(state){
+    logout(state) {
       state.isLogin = false
       state.isLoginError = false
       state.userInfo = null
@@ -73,15 +73,15 @@ export default new Vuex.Store({
       state.allUsers.forEach(user => {
         if (user.email === loginObj.email) selectedUser = user
       })
-      if(selectedUser === null || selectedUser.password !== loginObj.password) commit('loginError')
+      if (selectedUser === null || selectedUser.password !== loginObj.password) commit('loginError')
       else {
         commit('loginSuccess', selectedUser)
-        router.push({name:"dashboard"})
+        router.push({ name: "dashboard" })
       }
     },
-    logout({commit}){
+    logout({ commit }) {
       commit("logout")
-      router.push({name: "login"})
+      router.push({ name: "login" })
     }
   },
   modules: {
