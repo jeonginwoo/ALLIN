@@ -6,9 +6,9 @@
       </v-app-bar>
     </v-layout>
 
-    <!-- 프로젝트 목록 부분 -->
-    <v-data-table :headers="headers" :items="getData.projects" sort-by="calories" class="elevation-1">
 
+    <!-- 프로젝트 목록 부분 -->
+    <v-data-table :search="search" :headers="headers" :items="getData.projects" sort-by="calories" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat>
           <v-row class="ml-2 mt-5">
@@ -51,8 +51,11 @@
             </v-col>
 
             <!-- 프로젝트명 검색 부분 -->
-            <v-col>
+            <!-- <v-col>
               <v-text-field label="프로젝트명" required></v-text-field>
+            </v-col> -->
+            <v-col>
+              <v-text-field v-model="search" append-icon="mdi-magnify" label="Search"></v-text-field>
             </v-col>
 
             <v-col>
@@ -72,31 +75,31 @@
 
       <template v-slot:item.actions="{ item }">
         <!-- 프로젝트 수정 버튼 -->
-        <v-icon small class="mr-2" @click="dialogUpdate = true">
+        <v-icon small class="mr-2" @click="getUpdatePno(item.Pno)">
           mdi-pencil
         </v-icon>
         <!-- 프로젝트 삭제 버튼 -->
-        <v-icon small @click="dialogDelete = true">
+        <v-icon small @click="getDeletePno(item.Pno)">
           mdi-delete
         </v-icon>
       </template>
 
       <!-- 상태 색깔 -->
       <template v-slot:item.state="{ item }">
-        <v-chip :color="getColor(item.state)" dark>
+        <v-chip @click="" label outlined :color="getColor(item.state)" dark>
           {{ item.state }}
         </v-chip>
       </template>
     </v-data-table>
 
     <!-- 다이어로그 창 -->
-    <v-dialog v-model="dialogCreate" scrollable width="600px">
+    <v-dialog v-model="dialogCreate" persistent scrollable width="600px">
       <CreateProject @create="createData" @cancel="dialogCreate = false" />
     </v-dialog>
-    <v-dialog v-model="dialogUpdate" max-width="500px">
+    <v-dialog v-model="dialogUpdate" persistent max-width="500px">
       <UpdateProject @update="updateData" @cancel="dialogUpdate = false" />
     </v-dialog>
-    <v-dialog v-model="dialogDelete" max-width="500px">
+    <v-dialog v-model="dialogDelete" persistent max-width="500px">
       <DeleteProject @delete="deleteData" @cancel="dialogDelete = false" />
     </v-dialog>
   </v-card>
@@ -119,7 +122,12 @@ export default {
       end_date: new Date().toISOString().substr(0, 10),
       start_date_menu: false,
       end_date_menu: false,
+      search: '',   // 데이터 테이블 검색
 
+      updatePno: null,
+      deletePno: null,
+
+      // 다이어로그 창 on/off
       dialogCreate: false,
       dialogUpdate: false,
       dialogDelete: false,
@@ -152,39 +160,58 @@ export default {
       else return 'grey'
     },
 
+    // 수정, 삭제하는 프로젝트의 Pno값 구하는 함수
+    getUpdatePno(Pno){
+      console.log("수정하는 프로젝트 번호: ", Pno);
+      this.dialogUpdate = true; // update dialog 창 열기
+      this.updatePno = Pno;
+    },
+    getDeletePno(Pno){
+      console.log("삭제하는 프로젝트 번호: ", Pno);
+      this.dialogDelete = true; // delete dialog 창 열기
+      this.deletePno = Pno;
+    },
+
     // 프로젝트 관리 함수
     createData(data) { // 프로젝트 생성
-      console.log("프로젝트 생성")
-      this.dialogCreate = false
+      console.log("프로젝트 생성");
+      this.dialogCreate = false;
       axios.post('/api/project_create', data)
         .then(res => {
-          console.log(res)
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
     },
     updateData(data) { // 프로젝트 수정
-      console.log("프로젝트 수정")
-      this.dialogUpdate = false
+      console.log("프로젝트 수정");
+      this.dialogUpdate = false;
+      data.Pno = this.updatePno;
+      console.log("-------------");
+      console.log(data);
+      console.log("-------------");
       axios.post('/api/project_update', data)
         .then(res => {
-          console.log(res)
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
+      this.updatePno = null;
     },
     deleteData(data) { // 프로젝트 삭제
-      console.log("프로젝트 삭제")
-      this.dialogDelete = false
-      axios.post('/api/project_delete', data)
+      console.log("프로젝트 삭제");
+      this.dialogDelete = false;
+      data.Pno = this.deletePno;
+      axios.post('/api/project_delete', {Pno: this.deletePno})
         .then(res => {
-          console.log(res)
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
+      this.deletePno = null;
     },
   },
   computed: {

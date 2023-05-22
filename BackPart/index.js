@@ -38,28 +38,28 @@ app.post("/api/project_create", (req, res) => {
 
 app.post("/api/project_update", (req, res) => {
   const data = req.body
+  console.log('-----------');
   console.log(data)
-
-  // database.query(``, [], (err, res) =>{
-  //   if(err){
-  //     console.log(err)
-  //   } else {
-  //     console.log(res)
-  //   }
-  // })
+  console.log('-----------');
+  database.query(`UPDATE project SET Pname=?, mgr=?, state=?, progress=?, start_date=?, deadline=? WHERE Pno=?`, [data.Pname, data.mgr, data.state, data.progress, data.start_date, data.deadline, data.Pno], (err, res) =>{
+    if(err){
+      console.log(err)
+    } else {
+      console.log(res)
+    }
+  })
 });
 
 app.post("/api/project_delete", (req, res) => {
   const data = req.body
   console.log(data)
-
-  // database.query(``, [], (err, res) =>{
-  //   if(err){
-  //     console.log(err)
-  //   } else {
-  //     console.log(res)
-  //   }
-  // })
+  database.query(`DELETE FROM project WHERE Pno=?`, [data.Pno], (err, res) =>{
+    if(err){
+      console.log(err)
+    } else {
+      console.log(res)
+    }
+  })
 });
 
 app.listen(port, () => {
