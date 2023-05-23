@@ -28,14 +28,12 @@ export default new Vuex.Store({
       { text: '지연', type: 'error', data: 1 },
     ],
     headers: [  // Project 출력 부분 헤더
-      { text: '프로젝트명', value: 'Pname', sortable: false },
-      { text: '프로젝트 번호', value: 'Pno', align: 'start' },
+      { text: '번호', value: 'Pno' },
+      { text: '프로젝트명', value: 'Pname' },
       { text: '담당자', value: 'user_name' },
       { text: '상태', value: 'state' },
-      // { text: '진행률', value: 'progress' },
       { text: '시작일', value: 'start_date' },
-      { text: '완료예정일', value: 'deadline' },
-      { text: '종료일', value: 'end_date' },
+      { text: '마감일', value: 'deadline' },
       { text: '', value: 'actions' },
     ],
     mypage_headers: [  // Mypage 출력 부분 헤더

@@ -26,38 +26,10 @@ export default {
   data() {
     return {
       card: [
-        {
-          text: `완료`,
-          color: "green",
-          expancolor: "green lighten-3",
-          value: 1,
-          info: "success",
-          project: [],
-        },
-        {
-          text: `진행`,
-          color: "blue",
-          expancolor: "blue lighten-3",
-          value: 0,
-          info: "info",
-          project: [],
-        },
-        {
-          text: `취소`,
-          color: "yellow darken-1",
-          expancolor: "yellow lighten-3",
-          value: 0,
-          info: "error",
-          project: [],
-        },
-        {
-          text: `지연`,
-          color: "red",
-          expancolor: "red lighten-3",
-          value: 0,
-          info: "warning",
-          project: [],
-        },
+        { text: `완료`, color: "green", expancolor: "green lighten-3", value: 1, info: "success", project: [], },
+        { text: `진행`, color: "blue", expancolor: "blue lighten-3", value: 0, info: "info", project: [], },
+        { text: `취소`, color: "yellow darken-1", expancolor: "yellow lighten-3", value: 0, info: "error", project: [], },
+        { text: `지연`, color: "red", expancolor: "red lighten-3", value: 0, info: "warning", project: [], },
       ],
     };
   },

@@ -8,7 +8,7 @@
 
 
     <!-- 프로젝트 목록 부분 -->
-    <v-data-table :search="search" :headers="headers" :items="getData.projects" sort-by="calories" class="elevation-1">
+    <v-data-table :search="search" :headers="headers" :items="getData.projects" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat>
           <v-row class="ml-2 mt-5">
@@ -47,7 +47,7 @@
 
             <!-- 상태 검색 부분 -->
             <v-col>
-              <v-autocomplete label="상태" :items="['완료', '진행중', '미착수', '지연', '취소']"></v-autocomplete>
+              <v-autocomplete v-model="search" label="상태" :items="['진행중', '지연', '완료']"></v-autocomplete>
             </v-col>
 
             <!-- 프로젝트명 검색 부분 -->
@@ -86,9 +86,14 @@
 
       <!-- 상태 색깔 -->
       <template v-slot:item.state="{ item }">
-        <v-chip @click="" label outlined :color="getColor(item.state)" dark>
-          {{ item.state }}
-        </v-chip>
+        <v-menu offset-y :nudge-width="700">
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip label outlined :color="getColor(item.state)" dark v-bind="attrs" v-on="on">
+              {{ item.state }}
+            </v-chip>
+          </template>
+          <ProjectStep :step="item.progress" />
+        </v-menu>
       </template>
     </v-data-table>
 
@@ -110,6 +115,7 @@
 import CreateProject from '../components/CreateProject.vue'
 import UpdateProject from '../components/UpdateProject.vue'
 import DeleteProject from '../components/DeleteProject.vue'
+import ProjectStep from '../components/ProjectStep.vue'
 import { mapState } from 'vuex'
 
 import axios from "axios";
@@ -136,7 +142,8 @@ export default {
   components: {
     CreateProject,
     UpdateProject,
-    DeleteProject
+    DeleteProject,
+    ProjectStep
   },
   methods: {
     start_date_search(v) {
