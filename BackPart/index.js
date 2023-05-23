@@ -33,7 +33,7 @@ app.post("/api/project_create", (req, res) => {
     if (err) {
       console.log(err)
     } else {
-      database.query('SELECT Pno from project where Pname = ? and mgr = ?', [data.Pname, data.mgr], (err, res) => {
+      database.query('SELECT Pno, Pname from project where Pname = ? and mgr = ?', [data.Pname, data.mgr], (err, res) => {
         if (err) {
           console.log(err)
         } else {
@@ -42,7 +42,7 @@ app.post("/api/project_create", (req, res) => {
               console.log(err)
             }
           })
-          database.query("INSERT INTO log (pnum, user_num, contents) VALUES(?, ?, '프로젝트 생성됌')", [res[0].Pno, data.user_no], (err, res) => {
+          database.query("INSERT INTO log (pnum, user_num, pname, contents) VALUES(?, ?, ?, '프로젝트 생성됌')", [res[0].Pno, data.user_no, res[0].Pname], (err, res) => {
             if (err) console.log(err)
           })
         }
@@ -54,12 +54,12 @@ app.post("/api/project_create", (req, res) => {
 // 프로젝트 정보 갱신 // *** 이용자의 user_no 보내줘야함 ***
 app.post("/api/project_update", (req, res) => {
   const data = req.body
-  database.query('SELECT mgr, progress from project where Pno = ?', [data.Pno], (err, res) => {
+  database.query('SELECT mgr, progress, Pname from project where Pno = ?', [data.Pno], (err, res) => {
     if (!err) {
       database.query('UPDATE works_on SET user_no = ? where user_no = ? and pno = ?', [data.mgr, res[0].mgr, data.Pno], (err, res) => {
         if (err) console.log(err)
       })
-      database.query("INSERT INTO log (pnum, user_num, contents) VALUES(?, ?, '프로젝트 정보 갱신됌')", [data.Pno, data.user_no], (err, res) => {
+      database.query("INSERT INTO log (pnum, user_num, pname, contents) VALUES(?, ?, ?, '프로젝트 정보 갱신됌')", [data.Pno, data.user_no, res[0].Pname], (err, res) => {
         if (err) console.log(err)
       })
     } else console.log(err)
@@ -75,11 +75,13 @@ app.post("/api/project_update", (req, res) => {
 app.post("/api/project_delete", (req, res) => {
   const data = req.body
   console.log(data)
-  database.query(`DELETE FROM project WHERE Pno=?`, [data.Pno], (err, res) => {
-    if (err) {
-      console.log(err)
-    } else {
-      database.query("INSERT INTO log (pnum, user_num, contents) VALUES(?, ?, '프로젝트 삭제됌')", [data.Pno, data.user_no], (err, res) => {
+  database.query("SELECT Pname from project where Pno = ?", [data.Pno], (err, res) => {
+    if (err) console.log(err)
+    else {
+      database.query("INSERT INTO log (pnum, user_num, pname, contents) VALUES(?, ?, ?, '프로젝트 삭제됌')", [data.Pno, data.user_no, res[0].Pname], (err, res) => {
+        if (err) console.log(err)
+      })
+      database.query(`DELETE FROM project WHERE Pno=?`, [data.Pno], (err, res) => {
         if (err) console.log(err)
       })
     }
