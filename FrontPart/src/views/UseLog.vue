@@ -32,7 +32,6 @@ export default {
   data: () => ({
     userProject: []
   }),
-
   computed: {
     ...mapState(["userInfo"]),
     timeline() {
