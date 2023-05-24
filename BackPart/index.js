@@ -26,7 +26,7 @@ app.get("/api/project", (req, res) => {
   })
 });
 
-// 신규 프로젝트 생성 // *** 이용자의 user_no 보내줘야함 ***
+// 신규 프로젝트 생성
 app.post("/api/project_create", (req, res) => {
   const data = req.body
   database.query(`INSERT INTO project (Pname, mgr, progress, start_date, deadline, end_date) VALUES(?, ?, 1, date(now()), ?, null);`, [data.Pname, data.mgr, data.deadline], (err, res) => {
@@ -51,7 +51,7 @@ app.post("/api/project_create", (req, res) => {
   })
 });
 
-// 프로젝트 정보 갱신 // *** 이용자의 user_no 보내줘야함 ***
+// 프로젝트 정보 갱신
 app.post("/api/project_update", (req, res) => {
   const data = req.body
   database.query('SELECT mgr, progress, Pname from project where Pno = ?', [data.Pno], (err, res) => {
@@ -64,14 +64,22 @@ app.post("/api/project_update", (req, res) => {
       })
     } else console.log(err)
   })
-  database.query(`UPDATE project SET mgr=?, progress=?, deadline=? WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
-    if (err) {
-      console.log(err)
-    }
-  })
+  if (data.progress == 7) {
+    database.query(`UPDATE project SET mgr=?, progress=?, deadline=?, end_date=date(now()) WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
+      if (err) {
+        console.log(err)
+      }
+    })
+  } else {
+    database.query(`UPDATE project SET mgr=?, progress=?, deadline=? WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
 });
 
-// 프로젝트 삭제 // *** 이용자의 user_no 보내줘야함 ***
+// 프로젝트 삭제
 app.post("/api/project_delete", (req, res) => {
   const data = req.body
   database.query("SELECT Pname from project where Pno = ?", [data.Pno], (err, res) => {
@@ -87,7 +95,7 @@ app.post("/api/project_delete", (req, res) => {
   })
 });
 
-// 이용자의 참여 프로젝트 리스트 반환 // *** 이용자의 user_no 보내줘야함 ***
+// 이용자의 참여 프로젝트 리스트 반환
 app.post("/api/my_project", (req, res) => {
   const data = req.body
   database.query("select p.Pno, p.Pname, u.user_name, concat(p.deadline-date(now()), ' 일') as d_day, case when (p.progress = 7) then '완료' when(p.deadline-date(now()) < 0) then '지연' when (p.progress = 0) then '미착수' when (p.progress between 1 and 6) then '진행중' end as state, p.progress, DATE_FORMAT(p.start_date,'%Y.%m.%d')as start_date, DATE_FORMAT(p.deadline,'%Y.%m.%d')as deadline, DATE_FORMAT(p.end_date,'%Y.%m.%d')as end_date from project p, user u, works_on w where w.pno = p.Pno and p.mgr = u.user_no and w.user_no = ?", [data.user_no], (err, projects) => {
