@@ -4,7 +4,7 @@
     <v-row no-gutters>
       <v-col class="ma-2">
         <!-- <TestProjcet /> -->
-        <TestProjcet2 />
+        <TestProjcet />
       </v-col>
     </v-row>
 
