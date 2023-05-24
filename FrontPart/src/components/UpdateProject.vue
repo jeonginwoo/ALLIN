@@ -2,11 +2,22 @@
   <v-card>
     <v-card-title>프로젝트 수정</v-card-title>
     <v-divider></v-divider>
-    <v-card-text style="height: 400px;">
+    <v-card-text class="pa-10" style="height: 300px;">
       <v-text-field v-model="updateDate.mgr" label="담당자"></v-text-field>
       <v-text-field v-model="updateDate.progress" label="현 진행 단계"></v-text-field>
-      <v-text-field v-model="updateDate.deadline" label="마감일"></v-text-field>
-    </v-card-text>
+      <br>
+      <v-menu ref="deadline_menu" v-model="deadline_menu" :close-on-content-click="false" :return-value.sync="updateDate.deadline"
+        transition="scale-transition" offset-y min-width="290px">
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field v-model="updateDate.deadline" label="마감일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+            v-on="on"></v-text-field>
+        </template>
+        <v-date-picker v-model="updateDate.deadline" no-title scrollable>
+          <v-spacer></v-spacer>
+          <v-btn text color="primary" @click="deadline_menu = false">Cancel</v-btn>
+          <v-btn text color="primary" @click="deadline_search(updateDate.deadline)">OK</v-btn>
+        </v-date-picker>
+      </v-menu> </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -19,7 +30,7 @@
     </v-card-actions>
   </v-card>
 </template>
-  
+    
 <script>
 export default {
   data() {
@@ -27,10 +38,18 @@ export default {
       updateDate: {
         mgr: this.mgr,
         progress: this.progress,
-        deadline: this.deadline,
-      }
+        deadline: new Date().toISOString().substr(0, 10),
+      },
+      deadline_menu: false,
     }
   },
+  methods: {
+    deadline_search(v) {
+      this.deadline = v;
+      this.deadline_menu = false;
+      this.$refs.deadline_menu.save(v);
+    },
+  }
 }
 </script>
-  
+    

@@ -98,13 +98,13 @@
     </v-data-table>
 
     <!-- 다이어로그 창 -->
-    <v-dialog v-model="dialogCreate" persistent scrollable width="600px">
+    <v-dialog v-model="dialogCreate" persistent scrollable width="400px">
       <CreateProject @create="createData" @cancel="dialogCreate = false" />
     </v-dialog>
-    <v-dialog v-model="dialogUpdate" persistent max-width="500px">
+    <v-dialog v-model="dialogUpdate" persistent max-width="400px">
       <UpdateProject @update="updateData" @cancel="dialogUpdate = false" />
     </v-dialog>
-    <v-dialog v-model="dialogDelete" persistent max-width="500px">
+    <v-dialog v-model="dialogDelete" persistent max-width="400px">
       <DeleteProject @delete="deleteData" @cancel="dialogDelete = false" />
     </v-dialog>
   </v-card>
