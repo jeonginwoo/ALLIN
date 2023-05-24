@@ -11,12 +11,12 @@ export default new Vuex.Store({
     isLoginError: false,
     userInfo: null,
     allUsers: [  // Data Base
-      { userNo: 1, name: 'AAA', email: 'aaa@naver.com', password: '1234' },
-      { userNo: 2, name: 'BBB', email: 'bbb@naver.com', password: '1234' },
-      { userNo: 3, name: 'CCC', email: 'ccc@naver.com', password: '1234' },
-      { userNo: 4, name: 'DDD', email: 'ddd@naver.com', password: '1234' },
-      { userNo: 5, name: 'EEE', email: 'eee@naver.com', password: '1234' },
-      { userNo: 6, name: 'FFF', email: 'fff@naver.com', password: '1234' },
+      { userNo: 1, name: '정인우', email: 'aaa@naver.com', password: '1234' },
+      { userNo: 2, name: '조성현', email: 'bbb@naver.com', password: '1234' },
+      { userNo: 3, name: '남동균', email: 'ccc@naver.com', password: '1234' },
+      { userNo: 4, name: '차상민', email: 'ddd@naver.com', password: '1234' },
+      { userNo: 5, name: '윤정빈', email: 'eee@naver.com', password: '1234' },
+      { userNo: 6, name: '김성현', email: 'fff@naver.com', password: '1234' },
     ],
     menuItems: [  // 최상단의 메뉴 아이템
       { text: '대시보드', icon: 'mdi-view-dashboard-outline', router: 'dashboard' },
