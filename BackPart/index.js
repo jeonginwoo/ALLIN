@@ -42,7 +42,7 @@ app.post("/api/project_create", (req, res) => {
               console.log(err)
             }
           })
-          database.query("INSERT INTO log (pnum, user_num, pname, contents) VALUES(?, ?, ?, '프로젝트 생성됨')", [res[0].Pno, data.user_no, res[0].Pname], (err, res) => {
+          database.query("INSERT INTO log (pnum, user_num, pname, contents, time) VALUES(?, ?, ?, '프로젝트 생성됨', now())", [res[0].Pno, data.user_no, res[0].Pname], (err, res) => {
             if (err) console.log(err)
           })
         }
@@ -56,27 +56,33 @@ app.post("/api/project_update", (req, res) => {
   const data = req.body
   database.query('SELECT mgr, progress, Pname from project where Pno = ?', [data.Pno], (err, res) => {
     if (!err) {
+      const pname = res[0].Pname
       database.query('UPDATE works_on SET user_no = ? where user_no = ? and pno = ?', [data.mgr, res[0].mgr, data.Pno], (err, res) => {
         if (err) console.log(err)
       })
-      database.query("INSERT INTO log (pnum, user_num, pname, contents) VALUES(?, ?, ?, '프로젝트 정보 갱신됨')", [data.Pno, data.user_no, res[0].Pname], (err, res) => {
-        if (err) console.log(err)
-      })
+      if (data.progress == 7) {
+        database.query(`UPDATE project SET mgr=?, progress=?, deadline=?, end_date=date(now()) WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            database.query("INSERT INTO log (pnum, user_num, pname, contents, time) VALUES(?, ?, ?, '프로젝트 완료됨', now())", [data.Pno, data.user_no, pname], (err, res) => {
+              if (err) console.log(err)
+            })
+          }
+        })
+      } else {
+        database.query(`UPDATE project SET mgr=?, progress=?, deadline=? WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            database.query("INSERT INTO log (pnum, user_num, pname, contents, time) VALUES(?, ?, ?, '프로젝트 정보 갱신됨', now())", [data.Pno, data.user_no, pname], (err, res) => {
+              if (err) console.log(err)
+            })
+          }
+        })
+      }
     } else console.log(err)
   })
-  if (data.progress == 7) {
-    database.query(`UPDATE project SET mgr=?, progress=?, deadline=?, end_date=date(now()) WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
-      if (err) {
-        console.log(err)
-      }
-    })
-  } else {
-    database.query(`UPDATE project SET mgr=?, progress=?, deadline=? WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => {
-      if (err) {
-        console.log(err)
-      }
-    })
-  }
 });
 
 // 프로젝트 삭제
@@ -85,7 +91,7 @@ app.post("/api/project_delete", (req, res) => {
   database.query("SELECT Pname from project where Pno = ?", [data.Pno], (err, res) => {
     if (err) console.log(err)
     else {
-      database.query("INSERT INTO log (pnum, user_num, pname, contents) VALUES(?, ?, ?, '프로젝트 삭제됨')", [data.Pno, data.user_no, res[0].Pname], (err, res) => {
+      database.query("INSERT INTO log (pnum, user_num, pname, contents, time) VALUES(?, ?, ?, '프로젝트 삭제됨', now())", [data.Pno, data.user_no, res[0].Pname], (err, res) => {
         if (err) console.log(err)
       })
       database.query(`DELETE FROM project WHERE Pno=?`, [data.Pno], (err, res) => {
@@ -106,6 +112,27 @@ app.post("/api/my_project", (req, res) => {
     }
   })
 });
+
+// 달력
+app.post("/api/calender", (req, res) => {
+  const data = req.body
+  database.query("SELECT Pname, deadline, date(now())-deadline as d_day from project where date_format(?, '%Y-%m') = date_format(deadline, '%Y-%m')", [data.date], (err, projects) => {
+    if (err) console.log(err)
+    else {
+      res.send({ projects })
+    }
+  })
+});
+
+// 사용로그
+app.get("/api/uselog", (req, res) => {
+  database.query("select * from log", (err, logs) => {
+    if (err) console.log(err)
+    else {
+      res.send({ logs })
+    }
+  })
+})
 
 // // 대시보드 page 좌측 상단.
 // app.post("/api/project_of_year", (req, res) => {
