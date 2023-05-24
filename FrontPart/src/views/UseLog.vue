@@ -13,7 +13,9 @@
             {{ project.start_date }}
           </v-col>
           <v-col class="text-right" cols="7">
-            {{ project.user_name }}(사용자 이름) - {{ project.Pname }}(프로젝트 이름)
+            {{ project.user_name }}(사용자 이름)
+            <br>
+            {{ project.Pname }}(프로젝트 이름)
           </v-col>
         </v-row>
       </v-timeline-item>
