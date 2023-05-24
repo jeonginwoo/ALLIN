@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from "../router/index"
+import axios from 'axios';
 
 Vue.use(Vuex)
 
@@ -13,6 +14,9 @@ export default new Vuex.Store({
       { userNo: 1, name: 'AAA', email: 'aaa@naver.com', password: '1234' },
       { userNo: 2, name: 'BBB', email: 'bbb@naver.com', password: '1234' },
       { userNo: 3, name: 'CCC', email: 'ccc@naver.com', password: '1234' },
+      { userNo: 4, name: 'DDD', email: 'ddd@naver.com', password: '1234' },
+      { userNo: 5, name: 'EEE', email: 'eee@naver.com', password: '1234' },
+      { userNo: 6, name: 'FFF', email: 'fff@naver.com', password: '1234' },
     ],
     menuItems: [  // 최상단의 메뉴 아이템
       { text: '대시보드', icon: 'mdi-view-dashboard-outline', router: 'dashboard' },
@@ -37,10 +41,9 @@ export default new Vuex.Store({
       { text: '', value: 'actions' },
     ],
     mypage_headers: [  // Mypage 출력 부분 헤더
-      { text: '프로젝트명', value: 'Pname', align: 'start', sortable: false },
-      { text: '프로젝트 번호', value: 'Pno' },
+      { text: '번호', value: 'Pno' },
+      { text: '프로젝트명', value: 'Pname' },
       { text: '상태', value: 'state' },
-      { text: '진행률', value: 'progress' },
       { text: 'D-day', value: 'd_day' },
     ],
   },
@@ -77,10 +80,11 @@ export default new Vuex.Store({
         router.push({ name: "dashboard" })
       }
     },
+    // 로그아웃
     logout({ commit }) {
       commit("logout")
       router.push({ name: "login" })
-    }
+    },
   },
   modules: {
   }

@@ -5,9 +5,7 @@
     <v-card-text style="height: 400px;">
       <v-text-field v-model="createData.Pname" label="프로젝트 이름"></v-text-field>
       <v-text-field v-model="createData.mgr" label="담당자"></v-text-field>
-      <v-text-field v-model="createData.progress" label="현 진행 단계"></v-text-field>
-      <v-text-field v-model="createData.start_date" label="시작일"></v-text-field>
-      <v-text-field v-model="createData.deadline" label="기한"></v-text-field>
+      <v-text-field v-model="createData.deadline" label="마감일"></v-text-field>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -29,8 +27,6 @@ export default {
       createData: {
         Pname: this.Pname,
         mgr: this.mgr,
-        progress: this.progress,
-        start_date: this.start_date,
         deadline: this.deadline,
       }
     }

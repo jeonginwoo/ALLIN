@@ -25,8 +25,11 @@
 
       <v-spacer></v-spacer>
       <div v-if="isLogin">{{ userInfo.name }}</div>
-      <v-btn v-else elevation="0" color="rgba(0,0,0,0)" router :to="{name: 'login'}"><v-icon small>mdi-login</v-icon>Login</v-btn>
-      
+      <v-btn v-else elevation="0" color="rgba(0,0,0,0)" router :to="{ name: 'login' }">
+        <v-icon small>mdi-login</v-icon>Login
+      </v-btn>
+
+      <!-- 로그인 후 기능 창 -->
       <v-menu v-if="isLogin" dense offset-y>
         <template v-slot:activator="{ attrs, on }">
           <v-btn class="ma-3" icon small v-bind="attrs" v-on="on">
@@ -34,14 +37,18 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item exact router :to="{ name: 'mypage' }">
+
+          <!-- 마이 프로젝트 버튼 -->
+          <v-list-item exact @click="getUserNo">
             <v-list-item-action>
               <v-icon>mdi-account</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>마이페이지</v-list-item-title>
+              <v-list-item-title>마이 프로젝트</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+          <!-- 로그아웃 버튼 -->
           <v-list-item exact @click="logout">
             <v-list-item-action>
               <v-icon>mdi-logout</v-icon>
@@ -50,9 +57,15 @@
               <v-list-item-title>로그아웃</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
         </v-list>
       </v-menu>
-      
+
+      <!-- 마이 프로젝트 다이어로그 창 -->
+      <v-dialog v-model="dialogTodolist" persistent max-width="500px">
+        <MyProject :userProject="userProject" @close="dialogTodolist = false" />
+      </v-dialog>
+
     </v-app-bar>
 
     <v-main>
@@ -66,17 +79,36 @@
 </template>
 
 <script>
+import MyProject from './components/MyProject.vue'
 import { mapState, mapActions } from 'vuex'
+
+import axios from "axios";
 
 export default {
   data: () => ({
-    drawer: null,
+    drawer: null,             // 사이드 메뉴 관리
+    dialogTodolist: false,    // todolist창 관리
+    userProject: [],          // 로그인 한 유저가 참여하는 프로젝트 저장
   }),
+  components: {
+    MyProject
+  },
   computed: {
     ...mapState(["menuItems", "isLogin", "userInfo"])
   },
   methods: {
-    ...mapActions(['logout'])
+    ...mapActions(['logout']),
+    getUserNo() {
+      console.log("유저 번호 : ", this.userInfo.userNo);
+      this.dialogTodolist = true;
+      axios.post('/api/my_project', { user_no: this.userInfo.userNo })
+        .then(res => {
+          this.userProject = res.data.projects;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   },
 }
 </script>

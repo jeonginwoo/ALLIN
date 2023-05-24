@@ -17,9 +17,7 @@
 export default {
   data() {
     return {
-      deleteData: {
-        Pno: this.Pno
-      },
+      deleteData: {},
     }
   },
 }

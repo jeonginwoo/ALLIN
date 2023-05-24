@@ -168,12 +168,12 @@ export default {
     },
 
     // 수정, 삭제하는 프로젝트의 Pno값 구하는 함수
-    getUpdatePno(Pno){
+    getUpdatePno(Pno) {
       console.log("수정하는 프로젝트 번호: ", Pno);
       this.dialogUpdate = true; // update dialog 창 열기
       this.updatePno = Pno;
     },
-    getDeletePno(Pno){
+    getDeletePno(Pno) {
       console.log("삭제하는 프로젝트 번호: ", Pno);
       this.dialogDelete = true; // delete dialog 창 열기
       this.deletePno = Pno;
@@ -183,6 +183,10 @@ export default {
     createData(data) { // 프로젝트 생성
       console.log("프로젝트 생성");
       this.dialogCreate = false;
+      console.log('---------')
+      console.log(this.userInfo)
+      console.log('---------')
+      data.user_no = this.userInfo.userNo;
       axios.post('/api/project_create', data)
         .then(res => {
           console.log(res);
@@ -195,6 +199,7 @@ export default {
       console.log("프로젝트 수정");
       this.dialogUpdate = false;
       data.Pno = this.updatePno;
+      data.user_no = this.userInfo.userNo;
       console.log("-------------");
       console.log(data);
       console.log("-------------");
@@ -211,7 +216,8 @@ export default {
       console.log("프로젝트 삭제");
       this.dialogDelete = false;
       data.Pno = this.deletePno;
-      axios.post('/api/project_delete', {Pno: this.deletePno})
+      data.user_no = this.userInfo.userNo;
+      axios.post('/api/project_delete', data)
         .then(res => {
           console.log(res);
         })
@@ -222,7 +228,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["headers"])
+    ...mapState(["headers", "userInfo"])
   },
   setup() {
     const getData = reactive({

@@ -5,7 +5,7 @@ import store from '../store/index'
 Vue.use(VueRouter)
 
 const onlyAuthUser = (to, from, next) => {
-  if(store.state.isLogin === false){
+  if (store.state.isLogin === false) {
     // alert('로그인이 필요한 기능입니다')
     // next("/login")
     next()
@@ -18,42 +18,42 @@ const routes = [
   {
     path: '/',
     name: 'dashboard',
-    component: ()=>import('@/views/Dashboard.vue'),
+    component: () => import('@/views/Dashboard.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/project',
     name: 'project',
-    component: ()=>import('@/views/Project.vue'),
+    component: () => import('@/views/Project.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/outputStatus',
     name: 'outputStatus',
-    component: ()=>import('@/views/OutputStatus.vue'),
+    component: () => import('@/views/OutputStatus.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/useLog',
     name: 'useLog',
-    component: ()=>import('@/views/UseLog.vue'),
+    component: () => import('@/views/UseLog.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/setting',
     name: 'setting',
-    component: ()=>import('@/views/Setting.vue'),
+    component: () => import('@/views/Setting.vue'),
     beforeEnter: onlyAuthUser,
   },
   {
     path: '/login',
     name: 'login',
-    component: ()=>import('@/views/Login.vue')
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/mypage',
     name: 'mypage',
-    component: ()=>import('@/views/MyPage.vue')
+    component: () => import('@/views/MyPage.vue')
   },
 ]
 
