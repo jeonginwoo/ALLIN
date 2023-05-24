@@ -39,9 +39,6 @@ export default {
       return this.events.slice().reverse()
     },
   },
-  props: {
-    user_no: userInfo
-  },
   methods: {
     getUserNo() {
       console.log("유저 번호 : ", this.userInfo.userNo);
@@ -54,7 +51,7 @@ export default {
         });
     }
   },
-  setup(props) {
+  setup() {
     const getData = reactive({
       projects: [],
     });
