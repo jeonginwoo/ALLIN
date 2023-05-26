@@ -5,27 +5,32 @@
         <v-col>
           <v-sheet height="64">
             <v-toolbar flat>
-              <v-spacer></v-spacer>
+              <!-- 이전 달로 이동 -->
               <v-btn fab text small color="grey darken-2" @click="prev">
                 <v-icon small>
                   mdi-chevron-left
                 </v-icon>
               </v-btn>
+              <!-- 월 / 년 -->
               <v-toolbar-title v-if="$refs.calendar">
                 {{ $refs.calendar.title }}
               </v-toolbar-title>
+              <!-- 다음 달로 이동 -->
               <v-btn fab text small color="grey darken-2" @click="next">
                 <v-icon small>
                   mdi-chevron-right
                 </v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-
+              <!-- 오늘로 이동 -->
+              <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
+                Today
+              </v-btn>
             </v-toolbar>
           </v-sheet>
           <v-sheet height="600">
             <v-calendar ref="calendar" v-model="focus" color="primary" :events="events"
-              @change="updateRange"></v-calendar>
+              @change="showEvents"></v-calendar>
           </v-sheet>
         </v-col>
       </v-row>
@@ -50,7 +55,10 @@ export default {
     next() {
       this.$refs.calendar.next()
     },
-    updateRange() {
+    setToday() {
+      this.focus = ''
+    },
+    showEvents() {
       const events = [
         { name: 'Vacation', start: '2023-05-04', end: '2023-05-04', },
         { name: 'Meeting', start: '2023-05-13', end: '2023-05-13', },
