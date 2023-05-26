@@ -24,7 +24,8 @@
             </v-toolbar>
           </v-sheet>
           <v-sheet height="600">
-            <v-calendar ref="calendar" v-model="focus" color="primary" :events="events"></v-calendar>
+            <v-calendar ref="calendar" v-model="focus" color="primary" :events="events"
+              @change="updateRange"></v-calendar>
           </v-sheet>
         </v-col>
       </v-row>
@@ -37,29 +38,28 @@ export default {
   data: () => ({
     focus: '',
     selectedOpen: false,
-    events: [
-      { name: 'Vacation', start: '2023-05-04', end: '2023-05-04', },
-      { name: 'Meeting', start: '2023-05-13', end: '2023-05-13', },
-      { name: '30th Birthday', start: '2023-05-21', end: '2023-05-21', },
-      { name: 'New Years', start: '2023-05-21', end: '2023-05-21', },
-      { name: 'Conference', start: '2023-05-27', end: '2023-05-27', },
-      { name: 'Hackathon', start: '2023-05-31', end: '2023-05-31', },
-    ],
-    mounted() {
-      this.$refs.calendar.checkChange()
-    },
-
+    events: [],
   }),
+  mounted() {
+    this.$refs.calendar.checkChange()
+  },
   methods: {
-    viewDay({ date }) {
-      this.focus = date
-      this.type = 'day'
-    },
     prev() {
       this.$refs.calendar.prev()
     },
     next() {
       this.$refs.calendar.next()
+    },
+    updateRange() {
+      const events = [
+        { name: 'Vacation', start: '2023-05-04', end: '2023-05-04', },
+        { name: 'Meeting', start: '2023-05-13', end: '2023-05-13', },
+        { name: '30th Birthday', start: '2023-05-21', end: '2023-05-21', },
+        { name: 'New Years', start: '2023-05-21', end: '2023-05-21', },
+        { name: 'Conference', start: '2023-05-27', end: '2023-05-27', },
+        { name: 'Hackathon', start: '2023-05-31', end: '2023-05-31', },
+      ]
+      this.events = events
     },
   },
 }

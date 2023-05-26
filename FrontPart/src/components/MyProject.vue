@@ -37,21 +37,9 @@
 export default {
   data: () => ({
     items: [
-      {
-        title: '#3 Eclair',
-        artist: '조성현',
-        d_day: 31,
-      },
-      {
-        title: '#5 Tea',
-        artist: '정인우',
-        d_day: 64,
-      },
-      {
-        title: '#12 Test2',
-        artist: '남동균',
-        d_day: 97,
-      },
+      { title: '#3 Eclair', artist: '조성현', d_day: 31, },
+      { title: '#5 Tea', artist: '정인우', d_day: 64, },
+      { title: '#12 Test2', artist: '남동균', d_day: 97, },
     ],
   }),
 }
