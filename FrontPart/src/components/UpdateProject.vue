@@ -1,13 +1,14 @@
 <template>
   <v-card>
+    {{ setPreData() }}
     <v-card-title>프로젝트 수정</v-card-title>
     <v-divider></v-divider>
     <v-card-text class="pa-10" style="height: 300px;">
       <v-text-field v-model="updateDate.mgr" label="담당자"></v-text-field>
-      <v-text-field v-model="updateDate.progress" label="현 진행 단계"></v-text-field>
+      <v-select v-model="updateDate.progress" :items="[1, 2, 3, 4, 5, 6, 7]" label="현 진행 단계"></v-select>
       <br>
-      <v-menu ref="deadline_menu" v-model="deadline_menu" :close-on-content-click="false" :return-value.sync="updateDate.deadline"
-        transition="scale-transition" offset-y min-width="290px">
+      <v-menu ref="deadline_menu" v-model="deadline_menu" :close-on-content-click="false"
+        :return-value.sync="updateDate.deadline" transition="scale-transition" offset-y min-width="290px">
         <template v-slot:activator="{ on, attrs }">
           <v-text-field v-model="updateDate.deadline" label="마감일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
             v-on="on"></v-text-field>
@@ -36,14 +37,20 @@ export default {
   data() {
     return {
       updateDate: {
-        mgr: this.mgr,
-        progress: this.progress,
-        deadline: new Date().toISOString().substr(0, 10),
+        mgr: null,
+        progress: null,
+        deadline: null,
       },
       deadline_menu: false,
     }
   },
+  props: ["preData"],
   methods: {
+    setPreData(){
+      this.updateDate.mgr = this.preData.mgr;
+      this.updateDate.progress = this.preData.progress;
+      this.updateDate.deadline = this.preData.deadline;
+    },
     deadline_search(v) {
       this.deadline = v;
       this.deadline_menu = false;
