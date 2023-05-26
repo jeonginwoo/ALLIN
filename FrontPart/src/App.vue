@@ -62,7 +62,7 @@
       </v-menu>
 
       <!-- 마이 프로젝트 다이어로그 창 -->
-      <v-dialog v-model="dialogTodolist" persistent max-width="500px">
+      <v-dialog v-model="dialogTodolist" persistent max-width="400px">
         <MyProject :userProject="userProject" @close="dialogTodolist = false" />
       </v-dialog>
 
