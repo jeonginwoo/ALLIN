@@ -3,7 +3,7 @@
     <div id="app">
       <v-app id="inspire">
         <v-layout class="justify-center">
-          <v-card flat class="py-12" style="width: 1200px;">
+          <v-card flat class="py-12" style="width: 1000px;">
             <v-card-text>
               <v-row align="center" justify="center">
               </v-row>
