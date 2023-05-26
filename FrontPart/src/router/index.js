@@ -40,9 +40,9 @@ const routes = [
     beforeEnter: onlyAuthUser,
   },
   {
-    path: '/setting',
-    name: 'setting',
-    component: () => import('@/views/Setting.vue'),
+    path: '/theme',
+    name: 'theme',
+    component: () => import('@/views/Theme.vue'),
     beforeEnter: onlyAuthUser,
   },
   {

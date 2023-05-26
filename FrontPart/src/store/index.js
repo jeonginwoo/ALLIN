@@ -10,6 +10,7 @@ export default new Vuex.Store({
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    appBarColor: 'indigo',
     allUsers: [  // Data Base
       { userNo: 1, name: '정인우', email: 'aaa@naver.com', password: '1234' },
       { userNo: 2, name: '조성현', email: 'bbb@naver.com', password: '1234' },
@@ -23,7 +24,7 @@ export default new Vuex.Store({
       { text: '프로젝트', icon: 'mdi-bulletin-board', router: 'project' },
       { text: '산출물현황', icon: 'mdi-clipboard-search-outline', router: 'outputStatus' },
       { text: '사용로그', icon: 'mdi-clipboard-text-clock-outline', router: 'useLog' },
-      { text: '환경설정', icon: 'mdi-cog-outline', router: 'setting' },
+      { text: '테마변경', icon: 'mdi-palette-outline', router: 'theme' },
     ],
     summary: [  // Summary.vue에서 사용
       { text: '완료', type: 'success', data: 3 },
@@ -65,6 +66,9 @@ export default new Vuex.Store({
       state.isLogin = false
       state.isLoginError = false
       state.userInfo = null
+    },
+    setAppBarColor(state, color) {
+      state.appBarColor = color;
     },
   },
   actions: {
