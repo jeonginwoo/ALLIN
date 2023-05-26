@@ -7,15 +7,19 @@
       </v-timeline-item>
 
       <!-- 사용 로그 출력 부분 -->
-      <v-timeline-item class="mb-4" color="blue" icon-color="grey lighten-2" small v-for="project in getData.projects">
+      <v-timeline-item class="mb-4" color="blue" icon-color="grey lighten-2" small v-for="log in getData.logs">
         <v-row justify="space-between">
           <v-col cols="5">
-            {{ project.start_date }}
+            {{ log.time }}
           </v-col>
           <v-col class="text-right" cols="7">
-            {{ project.user_name }}(사용자 이름)
+            사용자 : {{ log.user_name }}
             <br>
-            {{ project.Pname }}(프로젝트 이름)
+            프로젝트 : {{ log.pname }}
+            <br>
+            내용 : {{ log.summary }}
+            <br>
+            {{ log.details }}
           </v-col>
         </v-row>
       </v-timeline-item>
@@ -54,10 +58,10 @@ export default {
   },
   setup() {
     const getData = reactive({
-      projects: [],
+      logs: [],
     });
-    axios.get("/api/project").then((res) => {
-      getData.projects = res.data.projects;
+    axios.get("/api/uselog").then((res) => {
+      getData.logs = res.data.logs;
     });
     return {
       getData,
