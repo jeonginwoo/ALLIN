@@ -75,7 +75,7 @@
 
       <template v-slot:item.actions="{ item }">
         <!-- 프로젝트 수정 버튼 -->
-        <v-icon small class="mr-2" @click="getUpdatePno(item.Pno)">
+        <v-icon small class="mr-2" @click="getUpdatePno(item)">
           mdi-pencil
         </v-icon>
         <!-- 프로젝트 삭제 버튼 -->
@@ -102,7 +102,7 @@
       <CreateProject @create="createData" @cancel="dialogCreate = false" />
     </v-dialog>
     <v-dialog v-model="dialogUpdate" persistent max-width="400px">
-      <UpdateProject @update="updateData" @cancel="dialogUpdate = false" />
+      <UpdateProject @update="updateData" @cancel="dialogUpdate = false" :preData="preData" />
     </v-dialog>
     <v-dialog v-model="dialogDelete" persistent max-width="400px">
       <DeleteProject @delete="deleteData" @cancel="dialogDelete = false" />
@@ -130,8 +130,9 @@ export default {
       end_date_menu: false,
       search: '',   // 데이터 테이블 검색
 
-      updatePno: null,
-      deletePno: null,
+      preData: {},  // 업데이트 이전 데이터
+      updatePno: null,  // 업데이트 프로젝트 번호
+      deletePno: null,  // 삭제 프로젝트 번호
 
       // 다이어로그 창 on/off
       dialogCreate: false,
@@ -168,10 +169,11 @@ export default {
     },
 
     // 수정, 삭제하는 프로젝트의 Pno값 구하는 함수
-    getUpdatePno(Pno) {
-      console.log("수정하는 프로젝트 번호: ", Pno);
+    getUpdatePno(project) {
+      console.log("수정하는 프로젝트 번호: ", project.Pno);
+      this.preData = project
       this.dialogUpdate = true; // update dialog 창 열기
-      this.updatePno = Pno;
+      this.updatePno = project.Pno;
     },
     getDeletePno(Pno) {
       console.log("삭제하는 프로젝트 번호: ", Pno);
@@ -183,9 +185,6 @@ export default {
     createData(data) { // 프로젝트 생성
       console.log("프로젝트 생성");
       this.dialogCreate = false;
-      console.log('---------')
-      console.log(this.userInfo)
-      console.log('---------')
       data.user_no = this.userInfo.userNo;
       axios.post('/api/project_create', data)
         .then(res => {
@@ -200,9 +199,6 @@ export default {
       this.dialogUpdate = false;
       data.Pno = this.updatePno;
       data.user_no = this.userInfo.userNo;
-      console.log("-------------");
-      console.log(data);
-      console.log("-------------");
       axios.post('/api/project_update', data)
         .then(res => {
           console.log(res);
@@ -211,6 +207,7 @@ export default {
           console.log(error);
         });
       this.updatePno = null;
+      this.preData = {};
     },
     deleteData(data) { // 프로젝트 삭제
       console.log("프로젝트 삭제");

@@ -5,7 +5,13 @@
         <v-list dense>
           <!-- 메뉴 바 -->
           <v-subheader>MENU</v-subheader>
-          <v-list-item exact v-for="(item, i) in menuItems" :key="i" router :to="{ name: item.router }">
+          <v-list-item
+            exact
+            v-for="(item, i) in menuItems"
+            :key="i"
+            router
+            :to="{ name: item.router }"
+          >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -17,15 +23,21 @@
       </v-card>
     </v-navigation-drawer>
 
-    <v-app-bar color="indigo" dark fixed app>
+    <v-app-bar :color="appBarColor" dark fixed app>
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
-      <div style="font-size:large">ALLIN</div>
+      <div style="font-size: large">ALLIN</div>
 
       <v-spacer></v-spacer>
       <div v-if="isLogin">{{ userInfo.name }}</div>
-      <v-btn v-else elevation="0" color="rgba(0,0,0,0)" router :to="{ name: 'login' }">
+      <v-btn
+        v-else
+        elevation="0"
+        color="rgba(0,0,0,0)"
+        router
+        :to="{ name: 'login' }"
+      >
         <v-icon small>mdi-login</v-icon>Login
       </v-btn>
 
@@ -37,7 +49,6 @@
           </v-btn>
         </template>
         <v-list>
-
           <!-- 마이 프로젝트 버튼 -->
           <v-list-item exact @click="getUserNo">
             <v-list-item-action>
@@ -57,58 +68,69 @@
               <v-list-item-title>로그아웃</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
         </v-list>
       </v-menu>
 
       <!-- 마이 프로젝트 다이어로그 창 -->
-      <v-dialog v-model="dialogTodolist" persistent max-width="500px">
+      <v-dialog v-model="dialogTodolist" persistent max-width="400px">
         <MyProject :userProject="userProject" @close="dialogTodolist = false" />
       </v-dialog>
-
     </v-app-bar>
-
     <v-main>
-      <router-view></router-view>
+      <router-view @change-app-bar-color="changeAppBarColor"></router-view>
     </v-main>
 
-    <v-footer color="indigo" app>
+    <v-footer :color="appBarColor" app>
       <span class="white--text">&copy; 2023</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import MyProject from './components/MyProject.vue'
-import { mapState, mapActions } from 'vuex'
+import MyProject from "./components/MyProject.vue";
+
+import { mapState, mapActions } from "vuex";
 
 import axios from "axios";
 
 export default {
-  data: () => ({
-    drawer: null,             // 사이드 메뉴 관리
-    dialogTodolist: false,    // todolist창 관리
-    userProject: [],          // 로그인 한 유저가 참여하는 프로젝트 저장
-  }),
+  data() {
+    return {
+      appBarColor: "indigo",
+      drawer: null,
+      dialogTodolist: false,
+      userProject: [],
+    };
+  },
+  created() {
+    this.$root.$on("change-app-bar-color", this.changeAppBarColor);
+  },
+  beforeDestroy() {
+    this.$root.$off("change-app-bar-color", this.changeAppBarColor);
+  },
   components: {
-    MyProject
+    MyProject,
   },
   computed: {
-    ...mapState(["menuItems", "isLogin", "userInfo"])
+    ...mapState(["menuItems", "isLogin", "userInfo"]),
   },
   methods: {
-    ...mapActions(['logout']),
+    changeAppBarColor(color) {
+      this.appBarColor = color;
+    },
+    ...mapActions(["logout"]),
     getUserNo() {
       console.log("유저 번호 : ", this.userInfo.userNo);
       this.dialogTodolist = true;
-      axios.post('/api/my_project', { user_no: this.userInfo.userNo })
-        .then(res => {
+      axios
+        .post("/api/my_project", { user_no: this.userInfo.userNo })
+        .then((res) => {
           this.userProject = res.data.projects;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
-}
+};
 </script>

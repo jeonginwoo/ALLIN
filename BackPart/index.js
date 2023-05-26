@@ -186,34 +186,6 @@ app.get("/api/uselog", (req, res) => {
   })
 })
 
-// // 대시보드 page 좌측 상단.
-// app.post("/api/project_of_year", (req, res) => {
-//   const data = req.body
-//   const result = {
-//     complete: 0,
-//     working: 0,
-//     delayed: 0
-//   }
-//   database.query("select count(progress) as complete from project where progress = 7 and year(deadline) = ?", [data.year], (err, res) => {
-//     if (err) console.log(err);
-//     else {
-//       result.complete = res[0].complete
-//     }
-//   })
-//   database.query("select count(progress) as working from project where progress between 1 and 6 and year(deadline) = ?", [data.year], (err, res) => {
-//     if (err) console.log(err);
-//     else {
-//       result.working = res[0].working
-//     }
-//   })
-//   database.query("select count(progress) as delayed from  where  and year(deadline) = ?", [data.year], (err, res) => {
-//     if (err) console.log(err);
-//     else {
-//       result.complete = res[0].complete
-//     }
-//   })
-// })
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
