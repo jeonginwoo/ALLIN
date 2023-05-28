@@ -156,7 +156,7 @@ app.post("/api/project_delete", (req, res) => {
 // 이용자의 참여 프로젝트 리스트 반환
 app.post("/api/my_project", (req, res) => {
   const data = req.body
-  database.query("select p.Pno, p.Pname, u.user_name as mgr_name, now()) as d_day, case when (p.progress = 7) then '완료' when(p.deadline-date(now()) < 0) then '지연' when (p.progress = 0) then '미착수' when (p.progress between 1 and 6) then '진행중' end as state, p.progress, DATE_FORMAT(p.start_date,'%Y.%m.%d')as start_date, DATE_FORMAT(p.deadline,'%Y.%m.%d')as deadline, DATE_FORMAT(p.end_date,'%Y.%m.%d')as end_date from project p, user u, works_on w where w.pno = p.Pno and p.mgr = u.user_no and w.user_no = ?", [data.user_no], (err, projects) => {
+  database.query("select p.Pno, p.Pname, u.user_name as mgr_name, (p.deadline-date(now())) as d_day, case when (p.progress = 7) then '완료' when(p.deadline-date(now()) < 0) then '지연' when (p.progress = 0) then '미착수' when (p.progress between 1 and 6) then '진행중' end as state, p.progress, DATE_FORMAT(p.start_date,'%Y.%m.%d')as start_date, DATE_FORMAT(p.deadline,'%Y.%m.%d')as deadline, DATE_FORMAT(p.end_date,'%Y.%m.%d')as end_date from project p, user u, works_on w where w.pno = p.Pno and p.mgr = u.user_no and w.user_no = ?", [data.user_no], (err, projects) => {
     if (err)
       console.log(err);
     else {
