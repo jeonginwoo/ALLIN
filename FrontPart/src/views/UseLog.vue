@@ -15,9 +15,13 @@
             {{ log.user_name }}
           </v-col>
           <v-col class="text-left" cols="7">
-            <span style="font-weight:bold">{{ log.pname }} {{ log.summary }}</span>
+            <span style="font-weight:bold">&lt{{ log.pname }}> {{ log.summary }}</span>
             <br>
-            {{ log.details }}
+            {{ log.detail_m }}
+            <br>
+            {{ log.detail_d }}
+            <br>
+            {{ log.detail_p }}
           </v-col>
         </v-row>
       </v-timeline-item>

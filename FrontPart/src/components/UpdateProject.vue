@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    {{ setPreData() }}
     <v-card-title>프로젝트 수정</v-card-title>
     <v-divider></v-divider>
     <v-card-text class="pa-10" style="height: 300px;">
@@ -46,7 +45,7 @@ export default {
   },
   props: ["preData"],
   methods: {
-    setPreData(){
+    setPreData() {
       this.updateDate.mgr = this.preData.mgr;
       this.updateDate.progress = this.preData.progress;
       this.updateDate.deadline = this.preData.deadline;
