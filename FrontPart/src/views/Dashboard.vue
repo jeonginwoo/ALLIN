@@ -9,14 +9,14 @@
     </v-row>
 
     <v-row no-gutters>
-      <!-- 프로젝트 현황 -->
-      <v-col class="ma-2">
-        <ProjectStatus />
-      </v-col>
-
       <!-- 전체 내용 요약 부분 -->
       <v-col class="ma-2" cols="4">
         <Summary />
+      </v-col>
+
+      <!-- 프로젝트 현황 -->
+      <v-col class="ma-2">
+        <ProjectStatus />
       </v-col>
     </v-row>
   </v-container>
