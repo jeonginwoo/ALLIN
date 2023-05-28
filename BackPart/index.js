@@ -199,7 +199,7 @@ app.get("/api/chart", (req, res) => {
       c = res[0].c
     }
   })
-  database.query('select count(*) as w from project where progress between 1 and 6', (err, res) => {
+  database.query('select count(*) as w from project where deadline-date(now()) >= 0 and progress between 1 and 6 ', (err, res) => {
     if (err) console.log(err)
     else {
       w = res[0].w
