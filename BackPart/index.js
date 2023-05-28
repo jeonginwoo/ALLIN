@@ -189,9 +189,9 @@ app.get("/api/uselog", (req, res) => {
 // 차트용
 app.get("/api/chart", (req, res) => {
   const data = {
-    c: complete,
-    w: working,
-    d: delay,
+    c: 0,
+    w: 0,
+    d: 0,
   }
   database.query('select count(*) as c from project where progress = 7', (err, res) => {
     if (err) console.log(err)
