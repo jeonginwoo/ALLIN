@@ -69,11 +69,11 @@ app.post("/api/project_update", (req, res) => {
         database.query('UPDATE works_on SET user_no = ? where user_no = ? and pno = ?', [data.mgr, res[0].mgr, data.Pno], (err, res) => { if (err) console.log(err) })
         if (data.progress == 7) {
           database.query(`UPDATE project SET mgr=?, progress=?, deadline=?, end_date=date(now()) WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => { if (err) console.log(err) })
-          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ? \n마감일 변동 : ? => ? \n진행 단계 갱신 : 프로젝트 완료됨")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
+          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ? \n마감일 변동 : ? → ? \n진행 단계 갱신 : 프로젝트 완료됨")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
         }
         else {
           database.query(`UPDATE project SET mgr=?, progress=?, deadline=? WHERE Pno=?`, [data.mgr, data.progress, data.deadline, data.Pno], (err, res) => { if (err) console.log(err) })
-          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ? , 마감일 변동 : ? => ? , 진행 단계 갱신 : ? 단계 => ? 단계")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].deadline, data.deadline, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
+          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ? \n마감일 변동 : ? → ? \n진행 단계 갱신 : ? 단계 → ? 단계")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].deadline, data.deadline, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
         }
       }
       // 관리자, 마감일 변경
@@ -81,7 +81,7 @@ app.post("/api/project_update", (req, res) => {
         console.log('2')
         database.query('UPDATE works_on SET user_no = ? where user_no = ? and pno = ?', [data.mgr, res[0].mgr, data.Pno], (err, res) => { if (err) console.log(err) })
         database.query(`UPDATE project SET mgr=?, deadline=? WHERE Pno=?`, [data.mgr, data.deadline, data.Pno], (err, res) => { if (err) console.log(err) })
-        database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ? \n마감일 변동 : ? => ?")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
+        database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ? \n마감일 변동 : ? → ?")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
       }
       // 관리자, 진행 단계 변경
       else if (res[0].mgr != data.mgr && res[0].progress != data.progress) {
@@ -93,7 +93,7 @@ app.post("/api/project_update", (req, res) => {
         }
         else {
           database.query(`UPDATE project SET mgr=?, progress=? WHERE Pno=?`, [data.mgr, data.progress, data.Pno], (err, res) => { if (err) console.log(err) })
-          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ?\n진행 단계 갱신 : ?단계 => ? 단계")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
+          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "신규 관리자 : ?\n진행 단계 갱신 : ?단계 → ? 단계")', [data.Pno, data.user_no, res[0].Pname, new_mgr, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
         }
       }
       // 마감일, 진행 단계 변경
@@ -101,11 +101,11 @@ app.post("/api/project_update", (req, res) => {
         console.log('4')
         if (data.progress == 7) {
           database.query(`UPDATE project SET progress=?, deadline=?, end_date=date(now()) WHERE Pno=?`, [data.progress, data.deadline, data.Pno], (err, res) => { if (err) console.log(err) })
-          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "마감일 변동 : ? => ? \n진행 단계 갱신 : 프로젝트 완료됨")', [data.Pno, data.user_no, res[0].Pname, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
+          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "마감일 변동 : ? → ? \n진행 단계 갱신 : 프로젝트 완료됨")', [data.Pno, data.user_no, res[0].Pname, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
         }
         else {
           database.query(`UPDATE project SET progress=?, deadline=? WHERE Pno=?`, [data.progress, data.deadline, data.Pno], (err, res) => { if (err) console.log(err) })
-          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "마감일 변동 : ? => ? \n진행 단계 갱신 : ? 단계 => ? 단계")', [data.Pno, data.user_no, res[0].Pname, res[0].deadline, data.deadline, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
+          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "마감일 변동 : ? → ? \n진행 단계 갱신 : ? 단계 → ? 단계")', [data.Pno, data.user_no, res[0].Pname, res[0].deadline, data.deadline, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
         }
       }
       // 관리자 변경
@@ -119,7 +119,7 @@ app.post("/api/project_update", (req, res) => {
       else if (res[0].deadline != data.deadline) {
         console.log('6')
         database.query(`UPDATE project SET deadline=? WHERE Pno=?`, [data.deadline, data.Pno], (err, res) => { if (err) console.log(err) })
-        database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "마감일 변동 : ? => ?")', [data.Pno, data.user_no, res[0].Pname, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
+        database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "마감일 변동 : ? → ?")', [data.Pno, data.user_no, res[0].Pname, res[0].deadline, data.deadline], (err, res) => { if (err) console.log(err) })
       }
       // 진행 단계 변경
       else if (res[0].progress != data.progress) {
@@ -130,7 +130,7 @@ app.post("/api/project_update", (req, res) => {
         }
         else {
           database.query(`UPDATE project SET progress=? WHERE Pno=?`, [data.progress, data.Pno], (err, res) => { if (err) console.log(err) })
-          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "진행 단계 갱신 : ? 단계 => ? 단계")', [data.Pno, data.user_no, res[0].Pname, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
+          database.query('INSERT INTO log (pnum, user_num, pname, summary, time, details) VALUES(?, ?, ?, "프로젝트 정보 갱신", now(), "진행 단계 갱신 : ? 단계 → ? 단계")', [data.Pno, data.user_no, res[0].Pname, res[0].progress, data.progress], (err, res) => { if (err) console.log(err) })
         }
       }
     }
@@ -178,12 +178,40 @@ app.post("/api/calendar", (req, res) => {
 
 // 사용로그
 app.get("/api/uselog", (req, res) => {
-  database.query("select l.pnum, l.pname, u.user_name, l.summary, l.details, l.time from log l, user u where u.user_no = l.user_num", (err, logs) => {
+  database.query("select l.pnum, l.pname, u.user_name, l.summary, l.details, date_format(l.time, '%Y-%m-%d %h:%i:%s') as time from log l, user u where u.user_no = l.user_num", (err, logs) => {
     if (err) console.log(err)
     else {
       res.send({ logs })
     }
   })
+})
+
+// 차트용
+app.get("/api/chart", (req, res) => {
+  const data = {
+    c: complete,
+    w: working,
+    d: delay,
+  }
+  database.query('select count(*) as c from project where progress = 7', (err, res) => {
+    if (err) console.log(err)
+    else {
+      c = res[0].c
+    }
+  })
+  database.query('select count(*) as w from project where progress between 1 and 6', (err, res) => {
+    if (err) console.log(err)
+    else {
+      w = res[0].w
+    }
+  })
+  database.query('select count(*) as d from project where deadline-date(now()) < 0 and progress != 7', (err, res) => {
+    if (err) console.log(err)
+    else {
+      d = res[0].d
+    }
+  })
+  res.send(data)
 })
 
 app.listen(port, () => {
