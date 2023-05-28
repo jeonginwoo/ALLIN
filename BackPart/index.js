@@ -192,6 +192,7 @@ app.get("/api/chart", (req, resp) => {
     c: 0,
     w: 0,
     d: 0,
+    e: 0,
   }
   database.query('select count(*) as c from project where progress = 7', (err, res) => {
     if (err) console.log(err)
@@ -207,8 +208,12 @@ app.get("/api/chart", (req, resp) => {
             if (err) console.log(err)
             else {
               data.d = res[0].d
-              console.log(data)
-              resp.send(data)
+
+              database.query('select count(*) as e from log where summary = "프로젝트 삭제됨"', (err, res) => {
+                data.e = res[0].e
+
+                resp.send(data)
+              })
             }
           })
         }
