@@ -13,38 +13,6 @@
         <v-toolbar flat>
           <v-row class="ml-2 mt-5">
 
-            <!-- 시작일 검색 부분 -->
-            <v-col>
-              <v-menu ref="start_date_menu" v-model="start_date_menu" :close-on-content-click="false"
-                :return-value.sync="start_date" transition="scale-transition" offset-y min-width="290px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="start_date" label="시작일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                    v-on="on"></v-text-field>
-                </template>
-                <v-date-picker v-model="start_date" no-title scrollable :max="end_date">
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="start_date_menu = false">Cancel</v-btn>
-                  <v-btn text color="primary" @click="start_date_search(start_date)">OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-
-            <!-- 완료예정일 검색 부분 -->
-            <v-col>
-              <v-menu ref="end_date_menu" v-model="end_date_menu" :close-on-content-click="false"
-                :return-value.sync="end_date" transition="scale-transition" offset-y min-width="290px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="end_date" label="완료예정일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                    v-on="on"></v-text-field>
-                </template>
-                <v-date-picker v-model="end_date" no-title scrollable :min="start_date">
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="end_date_menu = false">Cancel</v-btn>
-                  <v-btn text color="primary" @click="end_date_search(end_date)">OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-
             <!-- 상태 검색 부분 -->
             <v-col>
               <v-autocomplete v-model="search" label="상태" :items="['진행중', '지연', '완료']"></v-autocomplete>
@@ -65,7 +33,7 @@
               </v-btn>
 
               <!-- 새로고침 버튼 -->
-              <v-btn icon outlined small color="success">
+              <v-btn icon outlined small color="success" @click="refresh()">
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
             </v-col>
@@ -75,7 +43,7 @@
 
       <template v-slot:item.actions="{ item }">
         <!-- 프로젝트 수정 버튼 -->
-        <v-icon small class="mr-2" @click="getUpdatePno(item.Pno)">
+        <v-icon small class="mr-2" @click="getUpdatePno(item)">
           mdi-pencil
         </v-icon>
         <!-- 프로젝트 삭제 버튼 -->
@@ -102,7 +70,7 @@
       <CreateProject @create="createData" @cancel="dialogCreate = false" />
     </v-dialog>
     <v-dialog v-model="dialogUpdate" persistent max-width="400px">
-      <UpdateProject @update="updateData" @cancel="dialogUpdate = false" />
+      <UpdateProject @update="updateData" @cancel="dialogUpdate = false" :preData="preData" />
     </v-dialog>
     <v-dialog v-model="dialogDelete" persistent max-width="400px">
       <DeleteProject @delete="deleteData" @cancel="dialogDelete = false" />
@@ -124,14 +92,11 @@ import { reactive } from "vue";
 export default {
   data() {
     return {
-      start_date: new Date().toISOString().substr(0, 10),
-      end_date: new Date().toISOString().substr(0, 10),
-      start_date_menu: false,
-      end_date_menu: false,
       search: '',   // 데이터 테이블 검색
 
-      updatePno: null,
-      deletePno: null,
+      preData: {},  // 업데이트 이전 데이터
+      updatePno: null,  // 업데이트 프로젝트 번호
+      deletePno: null,  // 삭제 프로젝트 번호
 
       // 다이어로그 창 on/off
       dialogCreate: false,
@@ -146,18 +111,8 @@ export default {
     ProjectStep
   },
   methods: {
-    start_date_search(v) {
-      this.start_date = v;
-      this.start_date_menu = false;
-      this.$refs.start_date_menu.save(v);
-    },
-    end_date_search(v) {
-      this.end_date = v;
-      this.end_date_menu = false;
-      this.$refs.end_date_menu.save(v);
-    },
     refresh() {
-      console.log(this.getProjectList())
+            this.search = '';
     },
     getColor(state) {
       if (state == '완료') return 'green'
@@ -168,10 +123,11 @@ export default {
     },
 
     // 수정, 삭제하는 프로젝트의 Pno값 구하는 함수
-    getUpdatePno(Pno) {
-      console.log("수정하는 프로젝트 번호: ", Pno);
+    getUpdatePno(project) {
+      console.log("수정하는 프로젝트 번호: ", project.Pno);
+      this.preData = project
       this.dialogUpdate = true; // update dialog 창 열기
-      this.updatePno = Pno;
+      this.updatePno = project.Pno;
     },
     getDeletePno(Pno) {
       console.log("삭제하는 프로젝트 번호: ", Pno);
@@ -183,9 +139,6 @@ export default {
     createData(data) { // 프로젝트 생성
       console.log("프로젝트 생성");
       this.dialogCreate = false;
-      console.log('---------')
-      console.log(this.userInfo)
-      console.log('---------')
       data.user_no = this.userInfo.userNo;
       axios.post('/api/project_create', data)
         .then(res => {
@@ -200,9 +153,6 @@ export default {
       this.dialogUpdate = false;
       data.Pno = this.updatePno;
       data.user_no = this.userInfo.userNo;
-      console.log("-------------");
-      console.log(data);
-      console.log("-------------");
       axios.post('/api/project_update', data)
         .then(res => {
           console.log(res);
@@ -211,6 +161,7 @@ export default {
           console.log(error);
         });
       this.updatePno = null;
+      this.preData = {};
     },
     deleteData(data) { // 프로젝트 삭제
       console.log("프로젝트 삭제");
