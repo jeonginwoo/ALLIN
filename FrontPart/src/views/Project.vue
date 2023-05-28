@@ -241,6 +241,9 @@ export default {
     axios.get("/api/user").then((res) => {
       getData.users = res.data.users;
     })
+    axios.get("api/chart").then((res => {
+      console.log(res.data.d);
+    }))
     return {
       getData,
     }

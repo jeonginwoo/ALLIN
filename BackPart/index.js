@@ -187,7 +187,7 @@ app.get("/api/uselog", (req, res) => {
 })
 
 // 차트용
-app.get("/api/chart", (req, res) => {
+app.get("/api/chart", (req, resp) => {
   const data = {
     c: 0,
     w: 0,
@@ -197,21 +197,24 @@ app.get("/api/chart", (req, res) => {
     if (err) console.log(err)
     else {
       data.c = res[0].c
+
+      database.query('select count(*) as w from project where deadline-date(now()) >= 0 and progress between 1 and 6 ', (err, res) => {
+        if (err) console.log(err)
+        else {
+          data.w = res[0].w
+
+          database.query('select count(*) as d from project where deadline-date(now()) < 0 and progress != 7', (err, res) => {
+            if (err) console.log(err)
+            else {
+              data.d = res[0].d
+              console.log(data)
+              resp.send(data)
+            }
+          })
+        }
+      })
     }
   })
-  database.query('select count(*) as w from project where deadline-date(now()) >= 0 and progress between 1 and 6 ', (err, res) => {
-    if (err) console.log(err)
-    else {
-      data.w = res[0].w
-    }
-  })
-  database.query('select count(*) as d from project where deadline-date(now()) < 0 and progress != 7', (err, res) => {
-    if (err) console.log(err)
-    else {
-      data.d = res[0].d
-    }
-  })
-  res.send(data)
 })
 
 app.listen(port, () => {
