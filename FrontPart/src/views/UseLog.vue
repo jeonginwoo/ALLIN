@@ -1,6 +1,6 @@
 <template>
   <v-container style="max-width: 650px;">
-    <v-timeline dense clipped>
+    <v-timeline align-top dense>
 
       <v-timeline-item class="mb-6" hide-dot>
         <span>사용 로그</span>
@@ -11,13 +11,11 @@
         <v-row justify="space-between">
           <v-col cols="5">
             {{ log.time }}
+            <br>
+            {{ log.user_name }}
           </v-col>
-          <v-col class="text-right" cols="7">
-            사용자 : {{ log.user_name }}
-            <br>
-            프로젝트 : {{ log.pname }}
-            <br>
-            내용 : {{ log.summary }}
+          <v-col class="text-left" cols="7">
+            <span style="font-weight:bold">{{ log.pname }} {{ log.summary }}</span>
             <br>
             {{ log.details }}
           </v-col>
