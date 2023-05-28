@@ -4,14 +4,14 @@
     <v-divider></v-divider>
     <v-container>
       <v-row dense>
-        <v-col v-for="(item, i) in items" :key="i" cols="12">
+        <v-col v-for="(item, i) in userProject" :key="i" cols="12">
           <v-card>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div>
-                <v-card-title class="text-h5" v-text="item.title"></v-card-title>
+                <v-card-title class="text-h5" v-text="'#'+item.Pno+' '+item.Pname"></v-card-title>
 
                 <v-card-actions tile>
-                  {{ item.artist }}
+                  {{ item.mgr_name }}
                 </v-card-actions>
               </div>
               <div class="ma-3" tile style="font-size: 60px; color:indigo">
@@ -35,12 +35,6 @@
 
 <script>
 export default {
-  data: () => ({
-    items: [
-      { title: '#3 Eclair', artist: '조성현', d_day: 31, },
-      { title: '#5 Tea', artist: '정인우', d_day: 64, },
-      { title: '#12 Test2', artist: '남동균', d_day: 97, },
-    ],
-  }),
+  props:["userProject"]
 }
 </script>
