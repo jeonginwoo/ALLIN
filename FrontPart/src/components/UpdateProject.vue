@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>프로젝트 수정</v-card-title>
     <v-divider></v-divider>
-    <v-card-text class="pa-10" style="height: 300px;">
+    <v-card-text class="pa-10" style="height: 320px;">
       <v-text-field v-model="updateDate.mgr" label="담당자"></v-text-field>
       <v-select v-model="updateDate.progress" :items="[1, 2, 3, 4, 5, 6, 7]" label="현 진행 단계"></v-select>
       <br>

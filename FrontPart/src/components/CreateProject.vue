@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>프로젝트 생성</v-card-title>
     <v-divider></v-divider>
-    <v-card-text class="pa-10" style="height: 300px;">
+    <v-card-text class="pa-10" style="height: 320px;">
       <v-text-field v-model="createData.Pname" label="프로젝트 이름"></v-text-field>
       <v-text-field v-model="createData.mgr" label="담당자(번호)"></v-text-field>
       <br>
