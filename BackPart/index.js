@@ -182,31 +182,29 @@ app.get("/api/uselog", (req, res) => {
 
 // 차트
 app.get("/api/chart", (req, resp) => {
-  const data = [
-    {
-      completed: 0, // 완료된 프로젝트
-      working: 0,
-      delayed: 0,
-      canceled: 0,
-    }
-  ]
+  const data = {
+    completed: 0, // 완료된 프로젝트
+    working: 0,
+    delayed: 0,
+    canceled: 0,
+  }
   database.query('select count(*) as c from project where progress = 7', (err, res) => {
     if (err) console.log(err)
     else {
-      data[0].completed = res[0].c
+      data.completed = res[0].c
 
       database.query('select count(*) as w from project where deadline-date(now()) >= 0 and progress between 1 and 6 ', (err, res) => {
         if (err) console.log(err)
         else {
-          data[0].working = res[0].w
+          data.working = res[0].w
 
           database.query('select count(*) as d from project where deadline-date(now()) < 0 and progress != 7', (err, res) => {
             if (err) console.log(err)
             else {
-              data[0].delayed = res[0].d
+              data.delayed = res[0].d
 
               database.query('select count(*) as e from log where summary = "프로젝트 삭제됨"', (err, res) => {
-                data[0].canceled = res[0].e
+                data.canceled = res[0].e
 
                 resp.send(data)
               })
